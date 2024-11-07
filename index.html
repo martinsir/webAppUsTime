@@ -2,63 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UsTime Lobby</title>
-
+    <title>Lobby System</title>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
-
-
-
 <body>
-<h1>UsTime</h1>
-<input id="userName" placeholder="Enter your name"> <!-- Input for user name -->
-<button onclick="createRoom()">Create Room</button> <!-- Button to create a new room -->
-<input id="roomID" placeholder="Enter room ID"> <!-- Input for room ID to join -->
-<button onclick="joinRoom()">Join Room</button> <!-- Button to join an existing room -->
-<p id="roomCodeDisplay"></p> <!-- Paragraph to display the unique room ID -->
-<ul id="userList"></ul> <!-- List to show users in the room -->
+    <h1>Lobby System</h1>
 
-<script>
-    const socket = io(); // Initialize the Socket.io client
+    <h2>Opret en Lobby</h2>
+    <input id="createName" placeholder="Indtast dit navn">
+    <button onclick="createLobby()">Opret Lobby</button>
+    <p id="lobbyIDDisplay"></p>
 
-    // Function to create a new room
-    function createRoom() {
-        const userName = document.getElementById('userName').value; // Get the user name
-        socket.emit('create_room', userName); // Send request to server to create a room
+    <h2>Tilslut en Lobby</h2>
+    <input id="joinName" placeholder="Indtast dit navn">
+    <input id="joinLobbyID" placeholder="Indtast lobby ID">
+    <button onclick="joinLobby()">Tilslut Lobby</button>
 
-        socket.on('room_created', (roomID, users) => { // Receive room ID and user list
-            document.getElementById('roomID').value = roomID; // Set room ID in input field
-            document.getElementById('roomCodeDisplay').innerText = `Share this room code: ${roomID}`; // Display unique room ID
-            updateUserList(users); // Update user list
+    <h3>Brugere i lobbyen:</h3>
+    <ul id="userList"></ul>
+
+    <script>
+        const socket = io();
+
+        function createLobby() {
+            const userName = document.getElementById('createName').value;
+            socket.emit('create_lobby', userName);
+        }
+
+        function joinLobby() {
+            const userName = document.getElementById('joinName').value;
+            const lobbyID = document.getElementById('joinLobbyID').value;
+            socket.emit('join_lobby', lobbyID, userName);
+        }
+
+        // Når en lobby er oprettet, vis lobby-ID'et
+        socket.on('lobby_created', (lobbyID) => {
+            document.getElementById('lobbyIDDisplay').innerText = `Lobby ID: ${lobbyID}`;
         });
-    }
 
-    // Function to join an existing room
-    function joinRoom() {
-        const roomID = document.getElementById('roomID').value; // Get room ID from input field
-        const userName = document.getElementById('userName').value; // Get the user name
-        socket.emit('join_room', roomID, userName); // Send request to join the room
-
-        socket.on('user_joined', (users) => { // Update user list when a new user joins
-            updateUserList(users);
+        // Når en ny bruger tilslutter sig lobbyen, opdater brugerlisten
+        socket.on('user_joined', (users) => {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user;
+                userList.appendChild(li);
+            });
         });
 
-        socket.on('error', (message) => { // Handle error messages
-            alert(message); // Show error if room does not exist
+        // Håndter fejlbeskeder
+        socket.on('error', (message) => {
+            alert(message);
         });
-    }
-
-    // Function to update the user list
-    function updateUserList(users) {
-        const userList = document.getElementById('userList');
-        userList.innerHTML = ''; // Clear previous list
-        users.forEach((user) => { // Add each user to the list
-            const li = document.createElement('li');
-            li.textContent = user;
-            userList.appendChild(li);
-        });
-    }
-</script>
-<script src="node_modules/socket.io"></script> <!-- Import Socket.io client-side library -->
+    </script>
 </body>
 </html>
