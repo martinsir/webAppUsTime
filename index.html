@@ -3,78 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Lobby System</title>
+    <!-- Load the Socket.io client library -->
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <h1>Lobby System</h1>
 
+    <!-- Section for creating a new lobby -->
     <h2>Opret en Lobby</h2>
-    <input id="createName" placeholder="Indtast dit navn">
-    <button onclick="createLobby()">Opret Lobby</button>
-    <p id="lobbyIDDisplay"></p>
+    <input id="createName" placeholder="Indtast dit navn"> <!-- Input for user's name -->
+    <button onclick="createLobby()">Opret Lobby</button> <!-- Button to create lobby -->
+    <p id="lobbyIDDisplay"></p> <!-- Display lobby ID after creation -->
 
+    <!-- Section for joining an existing lobby -->
     <h2>Tilslut en Lobby</h2>
-    <input id="joinName" placeholder="Indtast dit navn">
-    <input id="joinLobbyID" placeholder="Indtast lobby ID">
-    <button onclick="joinLobby()">Tilslut Lobby</button>
-    <p id="errorMessage" style="color: red;"></p>
+    <input id="joinName" placeholder="Indtast dit navn"> <!-- Input for user's name -->
+    <input id="joinLobbyID" placeholder="Indtast lobby ID"> <!-- Input for lobby ID to join -->
+    <button onclick="joinLobby()">Tilslut Lobby</button> <!-- Button to join lobby -->
+    <p id="errorMessage" style="color: red;"></p> <!-- Display any error messages -->
 
+    <!-- Section for displaying users in the lobby -->
     <h3>Brugere i lobbyen:</h3>
-    <ul id="userList"></ul>
+    <ul id="userList"></ul> <!-- List of users in the current lobby -->
 
+    <!-- Section for chat messages -->
     <h3>Chat</h3>
     <div id="chatWindow" style="border: 1px solid #000; width: 100%; height: 200px; overflow-y: scroll;">
-        <ul id="messages"></ul>
+        <ul id="messages"></ul> <!-- List of chat messages -->
     </div>
-    <input id="messageInput" placeholder="Skriv din besked her">
-    <button onclick="sendMessage()">Send Besked</button>
+    <input id="messageInput" placeholder="Skriv din besked her"> <!-- Input for typing a chat message -->
+    <button onclick="sendMessage()">Send Besked</button> <!-- Button to send chat message -->
 
     <script>
-        const socket = io();
+        const socket = io(); // Initialize a Socket.io connection to the server
 
+        // Function to create a new lobby
         function createLobby() {
-            const userName = document.getElementById('createName').value;
-            socket.emit('create_lobby', userName);
-            document.getElementById('createName').value = ''; 
+            const userName = document.getElementById('createName').value; // Get user's name
+            socket.emit('create_lobby', userName); // Emit 'create_lobby' event with user's name
+            document.getElementById('createName').value = ''; // Clear input field after submission
         }
 
+        // Function to join an existing lobby
         function joinLobby() {
-            const userName = document.getElementById('joinName').value;
-            const lobbyID = document.getElementById('joinLobbyID').value;
-            socket.emit('join_lobby', lobbyID, userName);
-            document.getElementById('joinName').value = ''; 
+            const userName = document.getElementById('joinName').value; // Get user's name
+            const lobbyID = document.getElementById('joinLobbyID').value; // Get lobby ID
+            socket.emit('join_lobby', lobbyID, userName); // Emit 'join_lobby' event with lobby ID and user's name
+            document.getElementById('joinName').value = ''; // Clear input fields
             document.getElementById('joinLobbyID').value = '';
         }
 
+        // Listen for 'lobby_created' event and display the created lobby ID
         socket.on('lobby_created', (lobbyID) => {
-            document.getElementById('lobbyIDDisplay').innerText = `Lobby ID: ${lobbyID}`;
+            document.getElementById('lobbyIDDisplay').innerText = `Lobby ID: ${lobbyID}`; // Display the lobby ID
         });
 
+        // Listen for 'user_joined' event and update the user list in the lobby
         socket.on('user_joined', (userList) => {
-            const userListElement = document.getElementById('userList');
-            userListElement.innerHTML = '';
-            userList.forEach(user => {
+            const userListElement = document.getElementById('userList'); // Get user list element
+            userListElement.innerHTML = ''; // Clear current list
+            userList.forEach(user => { // Add each user to the list
                 const li = document.createElement('li');
                 li.textContent = user;
                 userListElement.appendChild(li);
             });
         });
 
+        // Function to send a chat message
         function sendMessage() {
-            const messageContent = document.getElementById('messageInput').value;
-            socket.emit('send_message', messageContent);
-            document.getElementById('messageInput').value = '';
+            const messageContent = document.getElementById('messageInput').value; // Get message content
+            socket.emit('send_message', messageContent); // Emit 'send_message' event with message content
+            document.getElementById('messageInput').value = ''; // Clear message input field
         }
 
+        // Listen for 'new_message' event and display incoming messages in the chat
         socket.on('new_message', (message) => {
-            const messageList = document.getElementById('messages');
-            const li = document.createElement('li');
-            li.textContent = `${message.username}: ${message.content}`;
-            messageList.appendChild(li);
+            const messageList = document.getElementById('messages'); // Get message list element
+            const li = document.createElement('li'); // Create new list item for the message
+            li.textContent = `${message.username}: ${message.content}`; // Format message content
+            messageList.appendChild(li); // Add message to the list
         });
 
+        // Listen for 'error' event and display error messages
         socket.on('error', (message) => {
-            document.getElementById('errorMessage').innerText = message;
+            document.getElementById('errorMessage').innerText = message; // Display error message
         });
     </script>
 </body>
