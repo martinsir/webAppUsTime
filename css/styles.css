@@ -1,0 +1,55 @@
+body {
+    background-color: #f7f9fb;
+    font-family: 'Lato', sans-serif;
+    color: #333;
+}
+
+h1 {
+    color: #4a90e2;
+    text-align: center;
+}
+
+input, button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    margin: 5px;
+}
+
+button {
+    background-color: #4a90e2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #357abd;
+}
+
+#chatWindow {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#messages li {
+    padding: 8px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    display: inline-block;
+    max-width: 80%;
+}
+
+#messages li.user {
+    background-color: #d1eaff;
+    text-align: right;
+}
+
+#messages li.other {
+    background-color: #e5e5ea;
+    text-align: left;
+}
