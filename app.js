@@ -2,49 +2,81 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
+const mysql = require('mysql2');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Midlertidigt lager for lobbier (gemt i hukommelsen)
-const lobbies = {};
+// Connect to MySQL
+const db = mysql.createConnection({
+    host: 'your-database-host',
+    user: 'your-database-username',
+    password: 'your-database-password',
+    database: 'itloesninger_dk_db_Chat'
+});
 
-// Servér HTML-filen
+db.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL database');
+});
+
+// Serve HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Håndtér Socket.io forbindelse
+// Handle Socket.io connections
 io.on('connection', (socket) => {
-    console.log('En bruger er forbundet');
+    console.log('User connected');
 
-    // Når en bruger opretter en lobby
+    // When a user creates a lobby
     socket.on('create_lobby', (userName) => {
-        const lobbyID = Math.random().toString(36).substring(2, 8); // Generér et unikt lobby-ID
-        lobbies[lobbyID] = [userName]; // Opret lobbyen med brugerens navn
-        socket.join(lobbyID); // Tilslut brugeren til lobbyen
-        socket.emit('lobby_created', lobbyID); // Send lobby-ID'et tilbage til brugeren
-        console.log(`Lobby oprettet med ID: ${lobbyID} af ${userName}`);
+        const lobbyID = Math.random().toString(36).substring(2, 8); // Generate unique lobby ID
+
+        // Insert lobby and participant into the database
+        db.query('INSERT INTO conversations (type, status) VALUES (?, ?)', ['Friendship', 'Active'], (err, results) => {
+            if (err) throw err;
+
+            const conversationID = results.insertId;
+
+            // Insert the user as a participant in the lobby
+            db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, 1, 'Sender'], (err) => {
+                if (err) throw err;
+
+                socket.join(lobbyID); // Join the lobby room
+                socket.emit('lobby_created', lobbyID); // Send lobby ID to the user
+                console.log(`Lobby created with ID: ${lobbyID} by ${userName}`);
+            });
+        });
     });
 
-    // Når en bruger forsøger at tilslutte sig en lobby
+    // When a user joins a lobby
     socket.on('join_lobby', (lobbyID, userName) => {
-        if (lobbies[lobbyID]) { // Tjek om lobby-ID eksisterer
-            lobbies[lobbyID].push(userName); // Tilføj bruger til lobbyen
-            socket.join(lobbyID); // Tilslut bruger til lobbyen
-            io.to(lobbyID).emit('user_joined', lobbies[lobbyID]); // Send opdateret brugerlisten til alle i lobbyen
-            console.log(`${userName} tilsluttet til lobby ${lobbyID}`);
-        } else {
-            socket.emit('error', 'Lobby findes ikke'); // Send fejl, hvis lobby-ID ikke eksisterer
-        }
+        db.query('SELECT id FROM conversations WHERE id = ?', [lobbyID], (err, results) => {
+            if (err) throw err;
+
+            if (results.length > 0) {
+                const conversationID = results[0].id;
+
+                db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, 2, 'Receiver'], (err) => {
+                    if (err) throw err;
+
+                    socket.join(lobbyID);
+                    io.to(lobbyID).emit('user_joined', userName);
+                    console.log(`${userName} joined lobby ${lobbyID}`);
+                });
+            } else {
+                socket.emit('error', 'Lobby not found');
+            }
+        });
     });
 
     socket.on('disconnect', () => {
-        console.log('En bruger har forladt forbindelsen');
+        console.log('User disconnected');
     });
 });
 
 server.listen(3000, () => {
-    console.log('Server kører på http://localhost:3000');
+    console.log('Server running at http://localhost:3000');
 });

@@ -17,6 +17,7 @@
     <input id="joinName" placeholder="Indtast dit navn">
     <input id="joinLobbyID" placeholder="Indtast lobby ID">
     <button onclick="joinLobby()">Tilslut Lobby</button>
+    <p id="errorMessage" style="color: red;"></p>
 
     <h3>Brugere i lobbyen:</h3>
     <ul id="userList"></ul>
@@ -27,20 +28,23 @@
         function createLobby() {
             const userName = document.getElementById('createName').value;
             socket.emit('create_lobby', userName);
+            document.getElementById('createName').value = ''; // Clear the input field
         }
 
         function joinLobby() {
             const userName = document.getElementById('joinName').value;
             const lobbyID = document.getElementById('joinLobbyID').value;
             socket.emit('join_lobby', lobbyID, userName);
+            document.getElementById('joinName').value = ''; // Clear the input fields
+            document.getElementById('joinLobbyID').value = '';
         }
 
-        // Når en lobby er oprettet, vis lobby-ID'et
+        // Display lobby ID after creation
         socket.on('lobby_created', (lobbyID) => {
             document.getElementById('lobbyIDDisplay').innerText = `Lobby ID: ${lobbyID}`;
         });
 
-        // Når en ny bruger tilslutter sig lobbyen, opdater brugerlisten
+        // Update user list when a new user joins
         socket.on('user_joined', (users) => {
             const userList = document.getElementById('userList');
             userList.innerHTML = '';
@@ -51,9 +55,9 @@
             });
         });
 
-        // Håndter fejlbeskeder
+        // Display error messages on the page
         socket.on('error', (message) => {
-            alert(message);
+            document.getElementById('errorMessage').innerText = message;
         });
     </script>
 </body>
