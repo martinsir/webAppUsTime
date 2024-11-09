@@ -1,55 +1,150 @@
+/* Grundlæggende opsætning */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: #52a2f3;
-    font-family: 'Lato', sans-serif;
+    background-color: #f4f6f9;
+    font-family: 'Arial', sans-serif;
     color: #333;
+}
+
+/* Hovedcontainer til indhold */
+.container {
+    max-width: 500px;
+    width: 90%;
+    margin: 40px auto; /* Centerer containeren lodret og horisontalt */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Overskrifter */
+h1, h2, h3 {
+    font-weight: bold;
 }
 
 h1 {
     color: #4a90e2;
-    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 10px;
 }
 
+h2, h3 {
+    color: #555;
+    margin: 10px 0;
+}
+
+/* Input og knapper */
 input, button {
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
     border-radius: 8px;
-    border: none;
+    border: 1px solid #ddd;
     font-size: 1rem;
-    margin: 5px;
+}
+
+input {
+    writing-mode: horizontal-tb; /* Forhindrer roteret tekst i feltet */
+}
+
+input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
 button {
     background-color: #4a90e2;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
+    border: none;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
     background-color: #357abd;
 }
 
-#chatWindow {
-    border: 1px solid #0c0b0b;
+button:active {
+    transform: scale(0.98);
+}
+
+/* Fejlmeddelelser */
+#errorMessage {
+    color: #ff4d4d;
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Brugerliste og chat vindue */
+#userList, #messages {
+    list-style: none;
+    margin-top: 10px;
+    padding: 0;
+    width: 100%;
+}
+
+#userList li, #messages li {
+    padding: 8px 12px;
     border-radius: 8px;
-    background-color: #030202;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+#userList li {
+    background-color: #f1f1f1;
+    color: #555;
 }
 
 #messages li {
-    padding: 8px;
-    border-radius: 15px;
-    margin-bottom: 8px;
-    display: inline-block;
-    max-width: 80%;
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
 }
 
 #messages li.user {
-    background-color: #dfebf5;
+    background-color: #d1eaff;
     text-align: right;
+    margin-left: auto;
 }
 
 #messages li.other {
     background-color: #e5e5ea;
     text-align: left;
+    margin-right: auto;
+}
+
+/* Chat vindue */
+#chatWindow {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* Mobilvenlig tilpasning */
+@media (max-width: 600px) {
+    .container {
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    input, button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
 }
