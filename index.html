@@ -8,29 +8,41 @@
 <body>
     <h1>Lobby System</h1>
 
+    <!-- Lobby Creation Section -->
     <h2>Opret en Lobby</h2>
     <input id="createName" placeholder="Indtast dit navn">
     <button onclick="createLobby()">Opret Lobby</button>
     <p id="lobbyIDDisplay"></p>
 
+    <!-- Lobby Join Section -->
     <h2>Tilslut en Lobby</h2>
     <input id="joinName" placeholder="Indtast dit navn">
     <input id="joinLobbyID" placeholder="Indtast lobby ID">
     <button onclick="joinLobby()">Tilslut Lobby</button>
     <p id="errorMessage" style="color: red;"></p>
 
+    <!-- User List and Chat Area -->
     <h3>Brugere i lobbyen:</h3>
     <ul id="userList"></ul>
+
+    <h3>Chat</h3>
+    <div id="chatWindow" style="border: 1px solid #000; width: 100%; height: 200px; overflow-y: scroll;">
+        <ul id="messages"></ul>
+    </div>
+    <input id="messageInput" placeholder="Skriv din besked her">
+    <button onclick="sendMessage()">Send Besked</button>
 
     <script>
         const socket = io();
 
+        // Function to create a lobby
         function createLobby() {
             const userName = document.getElementById('createName').value;
             socket.emit('create_lobby', userName);
             document.getElementById('createName').value = ''; // Clear the input field
         }
 
+        // Function to join a lobby
         function joinLobby() {
             const userName = document.getElementById('joinName').value;
             const lobbyID = document.getElementById('joinLobbyID').value;
@@ -55,7 +67,22 @@
             });
         });
 
-        // Display error messages on the page
+        // Function to send a message
+        function sendMessage() {
+            const messageContent = document.getElementById('messageInput').value;
+            socket.emit('send_message', messageContent);
+            document.getElementById('messageInput').value = ''; // Clear input field
+        }
+
+        // Display incoming messages
+        socket.on('new_message', (message) => {
+            const messageList = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = `${message.username}: ${message.content}`;
+            messageList.appendChild(li);
+        });
+
+        // Display error messages
         socket.on('error', (message) => {
             document.getElementById('errorMessage').innerText = message;
         });

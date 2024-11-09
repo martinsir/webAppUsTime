@@ -8,9 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Update these details to match your domain-hosted MySQL database
 require('dotenv').config();
-const mysql = require('mysql2');
 
 const db = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -18,7 +16,6 @@ const db = mysql.createConnection({
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
 });
-
 
 // Connect to the MySQL database
 db.connect((err) => {
@@ -34,7 +31,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Store active lobbies in the database
+// Handle Socket.io connections
 io.on('connection', (socket) => {
     console.log('User connected');
 
@@ -42,40 +39,70 @@ io.on('connection', (socket) => {
     socket.on('create_lobby', (userName) => {
         const lobbyID = Math.random().toString(36).substring(2, 8); // Generate unique lobby ID
 
-        // Insert the lobby into the database
-        db.query('INSERT INTO conversations (type, status) VALUES (?, ?)', ['Friendship', 'Active'], (err, results) => {
+        db.query('INSERT IGNORE INTO users (username, email, password) VALUES (?, ?, ?)', [userName, `${userName}@example.com`, 'defaultpassword'], (err, result) => {
             if (err) throw err;
 
-            const conversationID = results.insertId;
+            const userID = result.insertId || 1;
 
-            // Add the user as a participant in the lobby
-            db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, 1, 'Sender'], (err) => {
+            db.query('INSERT INTO conversations (type, status, lobby_id) VALUES (?, ?, ?)', ['Friendship', 'Active', lobbyID], (err, results) => {
                 if (err) throw err;
 
-                socket.join(lobbyID); // Join the lobby room
-                socket.emit('lobby_created', lobbyID); // Send lobby ID to the user
-                console.log(`Lobby created with ID: ${lobbyID} by ${userName}`);
+                const conversationID = results.insertId;
+
+                db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, userID, 'Sender'], (err) => {
+                    if (err) throw err;
+
+                    socket.join(lobbyID);
+                    socket.emit('lobby_created', lobbyID);
+                    console.log(`Lobby created with ID: ${lobbyID} by ${userName}`);
+                });
             });
         });
     });
 
     // When a user joins a lobby
     socket.on('join_lobby', (lobbyID, userName) => {
-        db.query('SELECT id FROM conversations WHERE id = ?', [lobbyID], (err, results) => {
+        db.query('SELECT id FROM conversations WHERE lobby_id = ?', [lobbyID], (err, results) => {
             if (err) throw err;
 
             if (results.length > 0) {
                 const conversationID = results[0].id;
 
-                db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, 2, 'Receiver'], (err) => {
+                db.query('INSERT IGNORE INTO users (username, email, password) VALUES (?, ?, ?)', [userName, `${userName}@example.com`, 'defaultpassword'], (err, result) => {
                     if (err) throw err;
 
-                    socket.join(lobbyID);
-                    io.to(lobbyID).emit('user_joined', userName);
-                    console.log(`${userName} joined lobby ${lobbyID}`);
+                    const userID = result.insertId || 1;
+
+                    db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, userID, 'Receiver'], (err) => {
+                        if (err) throw err;
+
+                        socket.join(lobbyID);
+                        io.to(lobbyID).emit('user_joined', userName);
+                        console.log(`${userName} joined lobby ${lobbyID}`);
+                    });
                 });
             } else {
                 socket.emit('error', 'Lobby not found');
+            }
+        });
+    });
+
+    // Handle message sending
+    socket.on('send_message', (content) => {
+        const lobbyID = Object.keys(socket.rooms).find(r => r !== socket.id);
+
+        db.query('SELECT id FROM conversations WHERE lobby_id = ?', [lobbyID], (err, results) => {
+            if (err) throw err;
+
+            if (results.length > 0) {
+                const conversationID = results[0].id;
+
+                db.query('INSERT INTO messages (conversation_id, user_id, content) VALUES (?, ?, ?)', [conversationID, 1, content], (err) => {
+                    if (err) throw err;
+
+                    io.to(lobbyID).emit('new_message', { username: 'User', content });
+                    console.log(`Message sent in lobby ${lobbyID}: ${content}`);
+                });
             }
         });
     });
