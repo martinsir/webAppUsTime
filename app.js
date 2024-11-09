@@ -8,25 +8,33 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Connect to MySQL
+// Update these details to match your domain-hosted MySQL database
+require('dotenv').config();
+const mysql = require('mysql2');
+
 const db = mysql.createConnection({
-    host: 'your-database-host',
-    user: 'your-database-username',
-    password: 'your-database-password',
-    database: 'itloesninger_dk_db_Chat'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME
 });
 
+
+// Connect to the MySQL database
 db.connect((err) => {
-    if (err) throw err;
+    if (err) {
+        console.error('Database connection failed:', err.stack);
+        return;
+    }
     console.log('Connected to MySQL database');
 });
 
-// Serve HTML file
+// Serve the HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Handle Socket.io connections
+// Store active lobbies in the database
 io.on('connection', (socket) => {
     console.log('User connected');
 
@@ -34,13 +42,13 @@ io.on('connection', (socket) => {
     socket.on('create_lobby', (userName) => {
         const lobbyID = Math.random().toString(36).substring(2, 8); // Generate unique lobby ID
 
-        // Insert lobby and participant into the database
+        // Insert the lobby into the database
         db.query('INSERT INTO conversations (type, status) VALUES (?, ?)', ['Friendship', 'Active'], (err, results) => {
             if (err) throw err;
 
             const conversationID = results.insertId;
 
-            // Insert the user as a participant in the lobby
+            // Add the user as a participant in the lobby
             db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, 1, 'Sender'], (err) => {
                 if (err) throw err;
 
