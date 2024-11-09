@@ -34,13 +34,14 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log('User connected');
 
-    // Create a lobby
+    // When a user creates a lobby
     socket.on('create_lobby', (userName) => {
         const lobbyID = Math.random().toString(36).substring(2, 8);
         db.query('INSERT IGNORE INTO users (username, email, password) VALUES (?, ?, ?)', [userName, `${userName}@example.com`, 'defaultpassword'], (err, result) => {
             if (err) throw err;
 
             const userID = result.insertId || 1;
+
             db.query('INSERT INTO conversations (type, status, lobby_id) VALUES (?, ?, ?)', ['Friendship', 'Active', lobbyID], (err, results) => {
                 if (err) throw err;
 
@@ -48,7 +49,7 @@ io.on('connection', (socket) => {
                 db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, userID, 'Sender'], (err) => {
                     if (err) throw err;
 
-                    lobbies[lobbyID] = [{ userID, userName }]; // Add initial user to the lobby in memory
+                    lobbies[lobbyID] = [{ socketID: socket.id, userID, userName }]; // Add user to lobby
                     socket.join(lobbyID);
                     socket.emit('lobby_created', lobbyID);
                     io.to(lobbyID).emit('user_joined', lobbies[lobbyID].map(user => user.userName)); // Update user list in lobby
@@ -58,23 +59,25 @@ io.on('connection', (socket) => {
         });
     });
 
-    // Join a lobby
+    // When a user joins a lobby
     socket.on('join_lobby', (lobbyID, userName) => {
         db.query('SELECT id FROM conversations WHERE lobby_id = ?', [lobbyID], (err, results) => {
             if (err) throw err;
 
             if (results.length > 0) {
                 const conversationID = results[0].id;
+
                 db.query('INSERT IGNORE INTO users (username, email, password) VALUES (?, ?, ?)', [userName, `${userName}@example.com`, 'defaultpassword'], (err, result) => {
                     if (err) throw err;
 
                     const userID = result.insertId || 1;
+
                     db.query('INSERT INTO participants (conversation_id, user_id, role) VALUES (?, ?, ?)', [conversationID, userID, 'Receiver'], (err) => {
                         if (err) throw err;
 
                         // Update lobby with the new user
                         if (!lobbies[lobbyID]) lobbies[lobbyID] = [];
-                        lobbies[lobbyID].push({ userID, userName });
+                        lobbies[lobbyID].push({ socketID: socket.id, userID, userName });
                         
                         socket.join(lobbyID);
                         io.to(lobbyID).emit('user_joined', lobbies[lobbyID].map(user => user.userName)); // Send updated user list
@@ -96,19 +99,34 @@ io.on('connection', (socket) => {
 
             if (results.length > 0) {
                 const conversationID = results[0].id;
-                const userID = lobbies[lobbyID].find(user => user.socketID === socket.id)?.userID || 1;
+                const user = lobbies[lobbyID].find(user => user.socketID === socket.id);
 
-                db.query('INSERT INTO messages (conversation_id, user_id, content) VALUES (?, ?, ?)', [conversationID, userID, content], (err) => {
-                    if (err) throw err;
+                if (user) { // Ensure user exists in the lobby
+                    const { userID, userName } = user;
 
-                    io.to(lobbyID).emit('new_message', { username: lobbies[lobbyID].find(user => user.userID === userID).userName, content });
-                    console.log(`Message sent in lobby ${lobbyID}: ${content}`);
-                });
+                    db.query('INSERT INTO messages (conversation_id, user_id, content) VALUES (?, ?, ?)', [conversationID, userID, content], (err) => {
+                        if (err) throw err;
+
+                        io.to(lobbyID).emit('new_message', { username: userName, content });
+                        console.log(`Message sent in lobby ${lobbyID} by ${userName}: ${content}`);
+                    });
+                } else {
+                    console.error('User not found in lobby');
+                }
             }
         });
     });
 
     socket.on('disconnect', () => {
+        // Remove the user from lobbies
+        for (const lobbyID in lobbies) {
+            const index = lobbies[lobbyID].findIndex(user => user.socketID === socket.id);
+            if (index !== -1) {
+                const [removedUser] = lobbies[lobbyID].splice(index, 1);
+                io.to(lobbyID).emit('user_joined', lobbies[lobbyID].map(user => user.userName));
+                console.log(`${removedUser.userName} disconnected from lobby ${lobbyID}`);
+            }
+        }
         console.log('User disconnected');
     });
 });
