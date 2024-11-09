@@ -1,5 +1,5 @@
 body {
-    background-color: #f7f9fb;
+    background-color: #52a2f3;
     font-family: 'Lato', sans-serif;
     color: #333;
 }
@@ -29,9 +29,9 @@ button:hover {
 }
 
 #chatWindow {
-    border: 1px solid #e0e0e0;
+    border: 1px solid #0c0b0b;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: #030202;
     padding: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -45,7 +45,7 @@ button:hover {
 }
 
 #messages li.user {
-    background-color: #d1eaff;
+    background-color: #dfebf5;
     text-align: right;
 }
 
