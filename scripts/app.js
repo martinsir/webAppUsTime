@@ -58,7 +58,7 @@ socket.on('lobby_created', (lobbyID) => {
 
     // Display the lobby ID in a custom container
     const lobbyIDContainer = document.getElementById('lobbyIDContainer');
-    document.getElementById('lobbyIDDisplay').innerText = `Her er din lobby kode: ${lobbyID}`;
+    document.getElementById('lobbyIDDisplay').innerText = `${lobbyID}`;
     lobbyIDContainer.style.display = 'block';
 });
 
