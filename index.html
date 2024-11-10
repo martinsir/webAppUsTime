@@ -7,95 +7,90 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <!-- Top Section with Hamburger Menu and App Name -->
     <header class="top-section">
         <h1 class="app-title">UsTime</h1>
     </header>
 
-
     <nav role="navigation">
         <div id="menuToggle">
-        
-          <input type="checkbox" id="menuCheckbox" />
-          
-        
-          <span></span>
-          <span></span>
-          <span></span>
-          
-        
-          <ul id="menu">
-         
-            <li>
-              <a href="#">
-                <label for="menuCheckbox" onclick="this.parentNode.click();">Home</label>
-              </a>
-            </li>
-            <li>
-              <a href="#about">
-                <label for="menuCheckbox" onclick="this.parentNode.click();">About</label>
-              </a>
-            </li>
-            
-            
-            <li><label for="menuCheckbox"><a>Info</a></label></li>
-            <li><label for="menuCheckbox"><a>Contact</a></label></li>
-            
-            
-            <li>
-              <a href="" target="_blank">Show me more</a>
-            </li>
-          </ul>
+            <input type="checkbox" id="menuCheckbox" aria-label="Toggle navigation menu" />
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul id="menu">
+                <li><a href="index.html"><label for="menuCheckbox" onclick="this.parentNode.click();">Home</label></a></li>
+                <li><a href="#about"><label for="menuCheckbox" onclick="this.parentNode.click();">About</label></a></li>
+                <li><label for="menuCheckbox"><a>Info</a></label></li>
+                <li><label for="menuCheckbox"><a>Contact</a></label></li>
+                <li><a href="" target="_blank">Show me more</a></li>
+            </ul>
         </div>
-      </nav>
+    </nav>
 
-
-    <!-- Logo Section -->
     <div class="logo-section">
         <img src="images/logo.svg" alt="UsTime Logo" class="app-logo">
     </div>
 
-    <!-- Initial Greeting Container -->
     <div class="container" id="initialGreeting">
         <h2>Hej,<br>Jeg hedder UsTime!</h2>
         <h4>Hvad har du lyst til at snakke om?</h4>
         <p>Vælg en kategori nedenfor for at starte en samtale.</p>
     </div>
 
-    <!-- Lobby Container (hidden initially) -->
-    <div class="container" id="lobbySection" style="display: none;">
+    <!-- Lobby Selection Section -->
+    <div class="container" id="lobbySelection" style="display: none;">
         <h2>Opret eller Tilslut en Lobby</h2>
-        <input id="createName" placeholder="Indtast dit navn">
-        <button onclick="createLobby()">Opret Lobby</button>
-        <input id="joinLobbyID" placeholder="Indtast lobby ID">
-        <button onclick="joinLobby()">Tilslut Lobby</button>
-        <p id="errorMessage" style="color: red;"></p>
+        <button onclick="showCreateLobby()" aria-label="Create Lobby">Opret Lobby</button>
+        <button onclick="showJoinLobby()" aria-label="Join Lobby">Tilslut Lobby</button>
     </div>
 
-    <!-- Lobby ID Display Section (hidden initially) -->
+    <!-- Create Lobby Input Section -->
+    <div class="container" id="createLobbySection" style="display: none;">
+        <input id="createName" placeholder="Indtast dit navn" aria-label="Enter your name to create a lobby">
+        <button onclick="createLobby()">Opret Lobby</button>
+    </div>
+
+    <!-- Join Lobby Input Section -->
+    <div class="container" id="joinLobbySection" style="display: none;">
+        <input id="joinName" placeholder="Indtast dit navn" aria-label="Enter your name to join a lobby">
+        <input id="joinLobbyID" placeholder="Indtast lobby ID" aria-label="Enter lobby ID to join">
+        <button onclick="joinLobby()">Tilslut Lobby</button>
+    </div>
+
+    <!-- Lobby ID and Readiness Message Section -->
     <div class="container" id="lobbyIDContainer" style="display: none;">
         <p>Her er din kode:</p>
         <h1 id="lobbyIDDisplay"></h1>
+        <!-- This message displays while waiting for the second user to join -->
+        <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Waiting for another user...</p>
     </div>
 
-    <!-- Category Section for selecting "Par" -->
+    <!-- Category Selection Section -->
     <div class="category-section">
-        <div class="category" onclick="startCategory('Par')">
+        <div class="category" onclick="startCategory('Par')" role="button" aria-label="Start conversation in Par category">
             <img src="images/par.png" alt="Par">
             <label>Par</label>
         </div>
-        <div class="category" onclick="startCategory('Venskab')">
+        <div class="category" onclick="startCategory('Venskab')" role="button" aria-label="Start conversation in Venskab category">
             <img src="images/venskab.png" alt="Venskab">
             <label>Venskab</label>
         </div>
-        <div class="category" onclick="startCategory('Kollega')">
+        <div class="category" onclick="startCategory('Kollega')" role="button" aria-label="Start conversation in Kollega category">
             <img src="images/kollega.png" alt="Kollega">
             <label>Kollega</label>
         </div>
-        <div class="category" onclick="startCategory('Solo')">
+        <div class="category" onclick="startCategory('Solo')" role="button" aria-label="Start conversation in Solo category">
             <img src="images/solo.png" alt="Solo">
             <label>Solo</label>
         </div>
+    </div>
+
+    <!-- Dialog Container for Imago Dialog Process -->
+    <div class="container" id="dialogContainer" style="display: none;">
+        <div id="messageDisplay"></div>
+        <div id="responseOptions"></div>
+        <!-- Optional visual indication for the user's turn -->
+        <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
     </div>
 
     <script src="scripts/app.js"></script>

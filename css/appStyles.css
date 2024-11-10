@@ -94,52 +94,59 @@ body {
 
 /* Category Section Styling */
 .category-section {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    background-color: #f4f6f9;
+  display: flex;
+  justify-content: space-evenly; /* Evenly spaced items */
+  flex-wrap: wrap;
+  gap: 15px; /* Space between items */
+  margin-top: 20px;
+  padding: 10px 20px;
+  width: 100%;
+  max-width: 1200px; /* Limit max width for better alignment */
+  
+  border-radius: 10px; /* Rounded corners */
+  
 }
 
+/* Category Item Styling */
 .category {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    margin: 10px;
-    width: 171px;
-    height: 102px;
-    background-color: #ffffff;
-    border: 2px solid #000000;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  width: 150px; /* Set width for consistent sizing */
+  background-color: #ffffff; /* Background for each item */
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .category:hover {
-    transform: scale(1.05);
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
 }
 
+/* Category Image Styling */
 .category img {
-    width: 60%;
-    height: auto;
-    opacity: 0.7;
+  pointer-events: auto; /* Ensure clicks on the image are captured */
+  width: 80px; /* Adjust size */
+  height: auto;
+  opacity: 0.85; /* Softer opacity */
+  transition: opacity 0.3s ease;
 }
 
+.category:hover img {
+  opacity: 1; /* Full opacity on hover */
+}
+
+/* Category Label Styling */
 .category label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1rem;
-    color: #333;
-    pointer-events: none;
-    text-align: center;
+  pointer-events: none; /* Prevent interference with clicking */
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 10px;
 }
 
 
@@ -260,6 +267,32 @@ body {
     border-radius: 40px;
     text-align: left;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#dialogContainer {
+  display: none;
+  background-color: yellow;
+  color: black;
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+
+
+#messageDisplay {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+#responseOptions button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4a90e2;
+    color: #fff;
+    cursor: pointer;
 }
 
 
