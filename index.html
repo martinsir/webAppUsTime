@@ -1,97 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <title>UsTime</title>
-   
-    <link rel="stylesheet" href="/appStyles.css"> <!-- Link til CSS-filen i css-mappen -->
-     
-     <!-- Load the Socket.io client library -->
+    <link rel="stylesheet" href="css/appStyles.css">
     <script src="/socket.io/socket.io.js"></script>
-    
 </head>
 <body>
-    <h1>UsTime</h1>
+    <!-- Top Section with Hamburger Menu and App Name -->
+    <header class="top-section">
+        <h1 class="app-title">UsTime</h1>
+    </header>
 
-    <!-- Section for creating a new lobby -->
-    <h2>Opret en Lobby</h2>
-    <input id="createName" placeholder="Indtast dit navn"> <!-- Input for user's name -->
-    <button onclick="createLobby()">Opret Lobby</button> <!-- Button to create lobby -->
-    <p id="lobbyIDDisplay"></p> <!-- Display lobby ID after creation -->
 
-    <!-- Section for joining an existing lobby -->
-    <h2>Tilslut en Lobby</h2>
-    <input id="joinName" placeholder="Indtast dit navn"> <!-- Input for user's name -->
-    <input id="joinLobbyID" placeholder="Indtast lobby ID"> <!-- Input for lobby ID to join -->
-    <button onclick="joinLobby()">Tilslut Lobby</button> <!-- Button to join lobby -->
-    <p id="errorMessage" style="color: red;"></p> <!-- Display any error messages -->
+    <nav role="navigation">
+        <div id="menuToggle">
+        
+          <input type="checkbox" id="menuCheckbox" />
+          
+        
+          <span></span>
+          <span></span>
+          <span></span>
+          
+        
+          <ul id="menu">
+         
+            <li>
+              <a href="#">
+                <label for="menuCheckbox" onclick="this.parentNode.click();">Home</label>
+              </a>
+            </li>
+            <li>
+              <a href="#about">
+                <label for="menuCheckbox" onclick="this.parentNode.click();">About</label>
+              </a>
+            </li>
+            
+            
+            <li><label for="menuCheckbox"><a>Info</a></label></li>
+            <li><label for="menuCheckbox"><a>Contact</a></label></li>
+            
+            
+            <li>
+              <a href="" target="_blank">Show me more</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-    <!-- Section for displaying users in the lobby -->
-    <h3>Brugere i lobbyen:</h3>
-    <ul id="userList"></ul> <!-- List of users in the current lobby -->
 
-    <!-- Section for chat messages -->
-    <h3>Chat</h3>
-    <div id="chatWindow" style="border: 1px solid #000; width: 100%; height: 200px; overflow-y: scroll;">
-        <ul id="messages"></ul> <!-- List of chat messages -->
+    <!-- Logo Section -->
+    <div class="logo-section">
+        <img src="images/logo.svg" alt="UsTime Logo" class="app-logo">
     </div>
-    <input id="messageInput" placeholder="Skriv din besked her"> <!-- Input for typing a chat message -->
-    <button onclick="sendMessage()">Send Besked</button> <!-- Button to send chat message -->
 
-    <script>
-        const socket = io(); // Initialize a Socket.io connection to the server
+    <!-- Initial Greeting Container -->
+    <div class="container" id="initialGreeting">
+        <h2>Hej,<br>Jeg hedder UsTime!</h2>
+        <h4>Hvad har du lyst til at snakke om?</h4>
+        <p>Vælg en kategori nedenfor for at starte en samtale.</p>
+    </div>
 
-        // Function to create a new lobby
-        function createLobby() {
-            const userName = document.getElementById('createName').value; // Get user's name
-            socket.emit('create_lobby', userName); // Emit 'create_lobby' event with user's name
-            document.getElementById('createName').value = ''; // Clear input field after submission
-        }
+    <!-- Lobby Container (hidden initially) -->
+    <div class="container" id="lobbySection" style="display: none;">
+        <h2>Opret eller Tilslut en Lobby</h2>
+        <input id="createName" placeholder="Indtast dit navn">
+        <button onclick="createLobby()">Opret Lobby</button>
+        <input id="joinLobbyID" placeholder="Indtast lobby ID">
+        <button onclick="joinLobby()">Tilslut Lobby</button>
+        <p id="errorMessage" style="color: red;"></p>
+    </div>
 
-        // Function to join an existing lobby
-        function joinLobby() {
-            const userName = document.getElementById('joinName').value; // Get user's name
-            const lobbyID = document.getElementById('joinLobbyID').value; // Get lobby ID
-            socket.emit('join_lobby', lobbyID, userName); // Emit 'join_lobby' event with lobby ID and user's name
-            document.getElementById('joinName').value = ''; // Clear input fields
-            document.getElementById('joinLobbyID').value = '';
-        }
+    <!-- Lobby ID Display Section (hidden initially) -->
+    <div class="container" id="lobbyIDContainer" style="display: none;">
+        <h2>Her er din kode:</h2>
+        <p id="lobbyIDDisplay"></p>
+    </div>
 
-        // Listen for 'lobby_created' event and display the created lobby ID
-        socket.on('lobby_created', (lobbyID) => {
-            document.getElementById('lobbyIDDisplay').innerText = `Lobby ID: ${lobbyID}`; // Display the lobby ID
-        });
+    <!-- Category Section for selecting "Par" -->
+    <div class="category-section">
+        <div class="category" onclick="startCategory('Par')">
+            <img src="images/par.png" alt="Par">
+            <label>Par</label>
+        </div>
+        <div class="category" onclick="startCategory('Venskab')">
+            <img src="images/venskab.png" alt="Venskab">
+            <label>Venskab</label>
+        </div>
+        <div class="category" onclick="startCategory('Kollega')">
+            <img src="images/kollega.png" alt="Kollega">
+            <label>Kollega</label>
+        </div>
+        <div class="category" onclick="startCategory('Solo')">
+            <img src="images/solo.png" alt="Solo">
+            <label>Solo</label>
+        </div>
+    </div>
 
-        // Listen for 'user_joined' event and update the user list in the lobby
-        socket.on('user_joined', (userList) => {
-            const userListElement = document.getElementById('userList'); // Get user list element
-            userListElement.innerHTML = ''; // Clear current list
-            userList.forEach(user => { // Add each user to the list
-                const li = document.createElement('li');
-                li.textContent = user;
-                userListElement.appendChild(li);
-            });
-        });
-
-        // Function to send a chat message
-        function sendMessage() {
-            const messageContent = document.getElementById('messageInput').value; // Get message content
-            socket.emit('send_message', messageContent); // Emit 'send_message' event with message content
-            document.getElementById('messageInput').value = ''; // Clear message input field
-        }
-
-        // Listen for 'new_message' event and display incoming messages in the chat
-        socket.on('new_message', (message) => {
-            const messageList = document.getElementById('messages'); // Get message list element
-            const li = document.createElement('li'); // Create new list item for the message
-            li.textContent = `${message.username}: ${message.content}`; // Format message content
-            messageList.appendChild(li); // Add message to the list
-        });
-
-        // Listen for 'error' event and display error messages
-        socket.on('error', (message) => {
-            document.getElementById('errorMessage').innerText = message; // Display error message
-        });
-    </script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>
