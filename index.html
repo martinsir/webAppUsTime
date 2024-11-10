@@ -57,11 +57,13 @@
         <button onclick="joinLobby()">Tilslut Lobby</button>
     </div>
 
+    <!-- Back Button (Visible during lobby setup) -->
+    <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;">Tilbage</button>
+
     <!-- Lobby ID and Readiness Message Section -->
     <div class="container" id="lobbyIDContainer" style="display: none;">
         <p>Her er din kode:</p>
         <h1 id="lobbyIDDisplay"></h1>
-        <!-- This message displays while waiting for the second user to join -->
         <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Waiting for another user...</p>
     </div>
 
@@ -89,9 +91,23 @@
     <div class="container" id="dialogContainer" style="display: none;">
         <div id="messageDisplay"></div>
         <div id="responseOptions"></div>
-        <!-- Optional visual indication for the user's turn -->
         <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
     </div>
+
+    <!-- Introduktion til Imago-dialog sektion -->
+<div class="container" id="introSection" style="display: none;">
+    <h2>Grundlæggende imagodialog</h2>
+    <h4>  Velkommen til grundlæggende imagodialog </h4>
+    <p>
+        Imago-dialogen er en struktureret samtaleform, hvor en person taler, og den anden lytter og spejler det, der bliver sagt. 
+        Dette hjælper med at skabe en dybere forståelse og empati i samtalen.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro, autem quasi dolor assumenda deserunt sint quos maxime expedita, magni provident consequatur aliquid voluptatibus fuga necessitatibus minima. Ipsa rerum perspiciatis deserunt?
+    </p>
+    <button onclick="showLobbyOptions()">Videre</button>
+</div>
+
+
+
 
     <script src="scripts/app.js"></script>
 </body>

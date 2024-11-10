@@ -12,19 +12,31 @@ function startCategory(categoryName) {
     console.log("Selected category:", categoryName);
     document.getElementById('initialGreeting').style.display = 'none';
     document.querySelector('.category-section').style.display = 'none';
-    document.getElementById('lobbySelection').style.display = 'block';
+    document.getElementById('introSection').style.display = 'block'; // Vis introduktionen
+    document.getElementById('backButton').style.display = 'block'; // Vis tilbage-knappen
 }
+
+// Funktion til at vise lobbyvalget efter introduktionen
+function showLobbyOptions() {
+    document.getElementById('introSection').style.display = 'none'; // Skjul introduktionen
+    document.getElementById('lobbySelection').style.display = 'block'; // Vis lobbyvalget
+}
+
 
 // Function to show Create Lobby input fields
 function showCreateLobby() {
+    // Skjul lobby-valgsektionen og vis kun sektionen til at oprette lobby
     document.getElementById('lobbySelection').style.display = 'none';
     document.getElementById('createLobbySection').style.display = 'block';
+    document.getElementById('backButton').style.display = 'block'; // Ensure Back button is visible
 }
 
 // Function to show Join Lobby input fields
 function showJoinLobby() {
+    // Skjul lobby-valgsektionen og vis kun sektionen til at tilslutte lobby
     document.getElementById('lobbySelection').style.display = 'none';
     document.getElementById('joinLobbySection').style.display = 'block';
+    document.getElementById('backButton').style.display = 'block'; // Ensure Back button is visible
 }
 
 // Function to create a new lobby
@@ -56,11 +68,13 @@ function joinLobby() {
 
 // Function to show only the dialog section
 function showDialogOnly() {
+    // Skjul alle andre sektioner og vis kun dialogsektionen
     document.getElementById('createLobbySection').style.display = 'none';
     document.getElementById('joinLobbySection').style.display = 'none';
     document.getElementById('lobbySelection').style.display = 'none';
     document.getElementById('lobbyIDContainer').style.display = 'none';
     document.getElementById('dialogContainer').style.display = 'block';
+    document.getElementById('backButton').style.display = 'none'; // Hide Back button in dialog view
 }
 
 // Handle lobby creation event
@@ -150,6 +164,23 @@ function displayDialogStep(stepIndex) {
         responseOptions.style.display = 'none';
     }
 }
+
+// Function to go back to the lobby selection screen
+function goBackToLobbySelection() {
+    document.getElementById('createLobbySection').style.display = 'none';
+    document.getElementById('joinLobbySection').style.display = 'none';
+    document.getElementById('lobbyIDContainer').style.display = 'none';
+    document.getElementById('lobbySelection').style.display = 'none';
+    document.getElementById('introSection').style.display = 'none'; // Skjul introduktionen
+    document.getElementById('initialGreeting').style.display = 'block';
+
+    const categorySection = document.querySelector('.category-section');
+    categorySection.style.display = 'flex';
+
+    document.getElementById('backButton').style.display = 'none';
+}
+
+
 
 // Function to go to the next dialog step and switch turns
 function nextDialogStep() {

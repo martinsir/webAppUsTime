@@ -8,22 +8,6 @@
     scroll-behavior: smooth;
   }
 
-/* Styling buttons inside the lobby section */
-#lobbySection button {
-    font-family: 'PP Panagia';
-    margin: 10px;
-    background-color: #4a90e2;    /* Button color */
-    color: #ffffff;               /* Text color */
-    padding: 12px 24px;           /* Padding */
-    font-size: 1rem;              /* Font size */
-    border: none;                 /* Remove default border */
-    border-radius: 8px;           /* Rounded corners */
-    cursor: pointer;              /* Pointer cursor */
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transition effects */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    
-}
 
 #lobbySection input {
     font-family: 'PP Panagia';
@@ -38,6 +22,32 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
     width: 125px;
 }
+/* Style for Create and Join Lobby Buttons */
+button {
+  font-family: 'PP Panagia';
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff; /* Text color */
+  background-color: #4a90e2; /* Button background color */
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px; /* Padding around the text */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px; /* Spacing between buttons */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Add shadow for depth */
+}
+
+#lobbySelection button:hover {
+  background-color: #357ab8; /* Darken on hover */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+#lobbySelection button:active {
+  transform: scale(0.98); /* Slightly reduce size on click for feedback */
+  background-color: #306a9e; /* Even darker color on click */
+}
+
 
   @font-face {
     font-family: 'PP Panagia';
@@ -55,6 +65,21 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
+
+#introSection h2{
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+}
+#introSection{
+  text-align: left;
+  padding: 20px;
+  background-color: #D1EDFF;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
 
 /* App Title Styling */
 .app-title {
@@ -332,6 +357,7 @@ p {
     font-size: 1rem;
     margin-bottom: 15px;
     color: #333;
+    line-height: 1.5;
 }
 
  /* Offset the "Par" image */
