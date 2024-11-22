@@ -1,4 +1,156 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Julius+Sans+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Julius+Sans+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+.safeDialog-logo {
+  width: 160px;
+  margin: 16px 0px 16px 0px;
+}
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.desktop-nav {
+  margin-left: auto;
+  margin-right: 16px;
+  display: none;
+}
+
+.desktop-nav a {
+  text-decoration: none;
+  margin: 0px 10px 0px 10px;
+  color: #FFCE21;
+}
+
+.is-scrolling {
+  background-color: #162A51;
+  transition: 0.4s;
+  margin: 0;
+  padding: 0;
+}
+.is-scrolling .desktop-nav a {
+  color: #FFCE21;
+}
+
+.desktop-nav a:hover {
+  text-decoration: underline;
+}
+
+.blob {
+  width: 40px;
+  height: 2px;
+  margin-left: 32px;
+}
+
+.hamburger {
+  position: relative;
+  display: block;
+  width: 40px;
+  cursor: pointer;
+  appearance: none;
+  background: none;
+  outline: none;
+  border: none;
+  margin: 0px 0px 0px 32px;
+}
+
+.hamburger .bar, .hamburger:after, .hamburger:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: #0A2B40;
+  margin: 6px 0px;
+  transition: 0.4s;
+  border-radius: 2px 2px 2px 2px;
+}
+
+.hamburger.is-active:before {
+  transform: rotate(-45deg) translate(-6px, 6px);
+}
+
+.hamburger.is-active .bar {
+  opacity: 0;
+}
+
+.hamburger.is-active:after {
+  transform: rotate(45deg) translate(-6px, -7px);
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  min-height: 100vh;
+  display: block;
+  z-index: 98;
+  background-color: #D1EDFF;
+  padding-top: 120px;
+  transition: 0.4s;
+}
+
+.mobile-nav.is-active {
+  left: 0;
+}
+
+.mobile-nav a {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto 16px;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: #162A51;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mobile-nav a:hover {
+  box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+}
+
+@media (min-width: 768px) {
+  .mobile-nav {
+    display: none;
+  }
+  .hamburger {
+    display: none;
+  }
+  .desktop-nav {
+    display: flex;
+    margin-right: 32px;
+  }
+  .desktop-nav a {
+    color: #162A51;
+  }
+  .safeDialog-logo {
+    margin-left: 32px;
+  }
+}
+@media (min-width: 1000px) {
+  .safeDialog-logo {
+    margin-left: 64px;
+  }
+  .desktop-nav {
+    margin-right: 64px;
+  }
+  .desktop-nav a {
+    font-size: 16px;
+  }
+}
+@media (min-width: 1200px) {
+  .desktop-nav a {
+    margin: 0px 15px 0px 15px;
+  }
+}
 /*!
  * Bootstrap  v5.3.3 (https://getbootstrap.com/)
  * Copyright 2011-2024 The Bootstrap Authors
@@ -11844,157 +11996,64 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.safeDialog-logo {
-  width: 160px;
-  margin: 16px 0px 16px 0px;
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+  font-family: "PT Serif", serif;
 }
 
-.nav-container {
-  position: fixed;
-  top: 0;
-  z-index: 99;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-around;
+p {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: normal;
 }
 
-.desktop-nav {
-  margin-left: auto;
-  margin-right: 16px;
-  display: none;
+body {
+  background: rgb(255, 255, 255);
+  background: linear-gradient(180deg, rgb(255, 255, 255) 50%, rgb(105, 158, 192) 100%);
 }
 
-.desktop-nav a {
-  text-decoration: none;
-  margin: 0px 10px 0px 10px;
-  color: #FFCE21;
+.customContainer {
+  margin: 32px 32px 32px 32px;
 }
 
-.is-scrolling {
-  background-color: #162A51;
-  transition: 0.4s;
-  margin: 0;
-  padding: 0;
-}
-.is-scrolling .desktop-nav a {
-  color: #FFCE21;
-}
-
-.desktop-nav a:hover {
-  text-decoration: underline;
-}
-
-.blob {
-  background-color: white;
-  width: 30px;
-  height: 2px;
-}
-
-.hamburger {
-  position: relative;
-  display: block;
-  width: 40px;
-  cursor: pointer;
-  appearance: none;
-  background: none;
-  outline: none;
+.btn-readmore {
+  width: 150px;
+  border-radius: 30px;
+  background-color: #0A2B40;
   border: none;
+  color: #D1EDFF;
+  padding: 0px 5px;
+  font-family: "PT Serif", serif;
 }
 
-.hamburger .bar, .hamburger:after, .hamburger:before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 3px;
-  background-color: #1a1b1d;
-  margin: 6px 0px;
-  transition: 0.4s;
-  border-radius: 2px 2px 2px 2px;
-}
-
-.hamburger.is-active:before {
-  transform: rotate(-45deg) translate(-6px, 6px);
-}
-
-.hamburger.is-active .bar {
-  opacity: 0;
-}
-
-.hamburger.is-active:after {
-  transform: rotate(45deg) translate(-6px, -7px);
-}
-
-.mobile-nav {
-  position: fixed;
-  top: 0;
-  left: 100%;
-  width: 100%;
-  min-height: 100vh;
-  display: block;
-  z-index: 98;
+.custom-card {
+  font-size: 14px;
   background-color: #D1EDFF;
-  padding-top: 120px;
-  transition: 0.4s;
+  padding: 16px;
+  display: flex;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
-
-.mobile-nav.is-active {
-  left: 0;
+.custom-card img {
+  width: 146px;
 }
-
-.mobile-nav a {
-  display: block;
-  width: 100%;
-  max-width: 200px;
-  margin: 0 auto 16px;
-  text-align: center;
-  padding: 12px 16px;
-  border-radius: 10px;
-  color: #162A51;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.mobile-nav a:hover {
-  box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+.custom-card div h2, .custom-card div .h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
 @media (min-width: 768px) {
-  .mobile-nav {
-    display: none;
-  }
-  .hamburger {
-    display: none;
-  }
-  .desktop-nav {
-    display: flex;
-    margin-right: 32px;
-  }
-  .desktop-nav a {
-    color: #162A51;
-    font-size: 12px;
-  }
-  .hamburger {
-    margin-right: 32px;
-  }
-  .safeDialog-logo {
-    margin-left: 32px;
+  .customContainer {
+    margin: 32px 32px 32px 32px;
   }
 }
 @media (min-width: 1000px) {
-  .safeDialog-logo {
-    margin-left: 64px;
-  }
-  .desktop-nav {
-    margin-right: 64px;
-  }
-  .desktop-nav a {
-    font-size: 16px;
+  .customContainer {
+    margin: 32px 64px 32px 64px;
   }
 }
 @media (min-width: 1200px) {
-  .desktop-nav a {
-    margin: 0px 15px 0px 15px;
+  .customContainer {
+    margin: 32px 64px 32px 64px;
   }
 }
 
