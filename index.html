@@ -2,12 +2,33 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>UsTime</title>
-    <link rel="stylesheet" href="css/appStyles.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeDialog | Hjem</title>
+    <link rel="stylesheet" href="dist/css/styles.css">
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <header class="top-section">
+    <header>
+        <div class="nav-container">
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <a href="index.html"><img class="safeDialog-logo" src="images/SafeDialog_logo.png" alt="SafeDialog logo"></a>
+            <nav class="desktop-nav">
+                <a class="navigation-link" href="#">Forside</a>
+                <a class="navigation-link" href="#">Start en samtale</a>
+                <a class="navigation-link" href="#">Om SafeDialog</a>
+            </nav>
+            <div class="blob"></div>
+        </div>
+        <nav class="mobile-nav">
+            <a href="#">Forside</a>
+            <a href="#">Start en samtale</a>
+            <a href="#">Om SafeDialog</a>
+        </nav>
+    </header>
+    <!-- <header class="top-section">
         <h1 class="app-title">UsTime</h1>
     </header>
 
@@ -37,37 +58,31 @@
         <p>Vælg en kategori nedenfor for at starte en samtale.</p>
     </div>
 
-    <!-- Lobby Selection Section -->
     <div class="container" id="lobbySelection" style="display: none;">
         <h2>Opret eller Tilslut en Lobby</h2>
         <button onclick="showCreateLobby()" aria-label="Create Lobby">Opret Lobby</button>
         <button onclick="showJoinLobby()" aria-label="Join Lobby">Tilslut Lobby</button>
     </div>
 
-    <!-- Create Lobby Input Section -->
     <div class="container" id="createLobbySection" style="display: none;">
         <input id="createName" placeholder="Indtast dit navn" aria-label="Enter your name to create a lobby">
         <button onclick="createLobby()">Opret Lobby</button>
     </div>
 
-    <!-- Join Lobby Input Section -->
     <div class="container" id="joinLobbySection" style="display: none;">
         <input id="joinName" placeholder="Indtast dit navn" aria-label="Enter your name to join a lobby">
         <input id="joinLobbyID" placeholder="Indtast lobby ID" aria-label="Enter lobby ID to join">
         <button onclick="joinLobby()">Tilslut Lobby</button>
     </div>
 
-    <!-- Back Button (Visible during lobby setup) -->
     <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;">Tilbage</button>
 
-    <!-- Lobby ID and Readiness Message Section -->
     <div class="container" id="lobbyIDContainer" style="display: none;">
         <p>Her er din kode:</p>
         <h1 id="lobbyIDDisplay"></h1>
         <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Waiting for another user...</p>
     </div>
 
-    <!-- Category Selection Section -->
     <div class="category-section">
         <div class="category" onclick="startCategory('Par')" role="button" aria-label="Start conversation in Par category">
             <img src="images/par.png" alt="Par">
@@ -87,14 +102,12 @@
         </div>
     </div>
 
-    <!-- Dialog Container for Imago Dialog Process -->
     <div class="container" id="dialogContainer" style="display: none;">
         <div id="messageDisplay"></div>
         <div id="responseOptions"></div>
         <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
     </div>
 
-    <!-- Introduktion til Imago-dialog sektion -->
 <div class="container" id="introSection" style="display: none;">
     <h2>Grundlæggende imagodialog</h2>
     <h4>  Velkommen til grundlæggende imagodialog </h4>
@@ -104,11 +117,11 @@
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro, autem quasi dolor assumenda deserunt sint quos maxime expedita, magni provident consequatur aliquid voluptatibus fuga necessitatibus minima. Ipsa rerum perspiciatis deserunt?
     </p>
     <button onclick="showLobbyOptions()">Videre</button>
-</div>
+</div> -->
 
 
 
-
+    <script src="scripts/header.js"></script>
     <script src="scripts/app.js"></script>
 </body>
 </html>
