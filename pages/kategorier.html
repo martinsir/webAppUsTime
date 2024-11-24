@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kategorier</title>
+    <link rel="stylesheet" href="../dist/css/styles.css">
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <title>SafeDialog | Kategorier</title>
 </head>
 <body>
 
@@ -12,20 +14,58 @@
             <button class="hamburger">
                 <div class="bar"></div>
             </button>
-            <a href="index.html"><img class="safeDialog-logo" src="images/SafeDialog_logo.svg" alt="SafeDialog logo"></a>
+            <a href="index.html"><img class="safeDialog-logo" src="../images/SafeDialog_logo.svg" alt="SafeDialog logo"></a>
             <nav class="desktop-nav" role="navigation">
-                <a class="navigation-link" href="#">Forside</a>
-                <a class="navigation-link" href="#">Start en samtale</a>
-                <a class="navigation-link" href="#">Om SafeDialog</a>
+                <a class="navigation-link" href="../index.html">Forside</a>
+                <a class="navigation-link" href="./kategorier.html">Start en samtale</a>
+                <a class="navigation-link" href="./om.html">Om SafeDialog</a>
             </nav>
             <div class="blob"></div>
         </div>
         <nav class="mobile-nav" role="navigation">
-            <a href="#">Forside</a>
-            <a href="#">Start en samtale</a>
-            <a href="#">Om SafeDialog</a>
+            <a href="../index.html">Forside</a>
+            <a href="./kategorier.html">Start en samtale</a>
+            <a href="./om.html">Om SafeDialog</a>
         </nav>
     </header>
-    
+
+    <main class="mt-5 pt-5">
+        <section class="customContainer">
+            <h1>Vælg din øvelse</h1>
+            <p>Udforsk de skræddersyede øvelser, der hjælper dig med at styrke din dialog. Øvelserne er tilpasset dit niveau – uanset om du er nybegynder eller erfaren i at føre samtaler.</p>
+            <p>Start med enkle trin og arbejd dig op til mere udfordrende teknikker, der styrker din kommunikation og skaber bedre relationer.</p>
+        </section>
+
+        <section class="customContainer">
+            <div class="categoriesContainer">
+                <button class="categoryBox">Par</button>
+                <button class="categoryBox lockedCategoryDisplay">Venskab
+                    <img src="../images/icons/lock.svg" class="lockIcon">
+                </button>
+                <button class="categoryBox lockedCategoryDisplay">Kollegaer
+                    <img src="../images/icons/lock.svg" class="lockIcon">
+                </button>
+                <button class="categoryBox lockedCategoryDisplay">Dig
+                    <img src="../images/icons/lock.svg" class="lockIcon">
+                </button>
+            </div>
+        </section>
+
+        <section class="customContainer">
+            <div class="exercisesContainer d-flex flex-column align-items-center justify-content-center">
+                <a class="exercise mb-3">Basis Dialog</a>
+                <a class="exercise lockedExerciseDisplay mb-3">Drømme Dialog</a>
+                <a class="exercise lockedExerciseDisplay mb-3">Frustrations Dialog</a>
+                <a class="exercise lockedExerciseDisplay mb-3">Anmodnings Dialog</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="../scripts/index.js" type="module"></script>
+    <!-- <script src="scripts/app.js"></script> -->
 </body>
 </html>
