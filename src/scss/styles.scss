@@ -6,6 +6,7 @@
 @import "./partials/variables";
 @import "./partials/header";
 @import "./partials/icons";
+@import "./partials/buttons";
 @import "./partials/dialogues";
 
 // Importing bootstrap framework
@@ -57,31 +58,31 @@ body {
     background-size: 300px 200px;
 }
 
-// custom readmore button, primarily used on the home page
-.btn-readmore {
-    width: 150px;
-    border-radius: 30px;
-    background-color: $dark-blue;
-    border: none;
-    color: $light-blue;
-    padding: 0px 5px;
-    font-family: $headerFont;
-}
+// // custom readmore button, primarily used on the home page
+// .btn-readmore {
+//     width: 150px;
+//     border-radius: 30px;
+//     background-color: $dark-blue;
+//     border: none;
+//     color: $light-blue;
+//     padding: 0px 5px;
+//     font-family: $headerFont;
+// }
 
-// Custom button for the page
-.primary-btn {
-    background-color: $dark-blue;
-    color: $light-blue;
-    border: 2px solid $dark-blue;
-    padding: 15px 30px;
-    border-radius: 30px;
-    margin-bottom: 15px;
-    &:hover{
-        transition: 0.5s;
-        background-color: $light-blue;
-        color: $dark-blue
-    }
-}
+// // Custom button for the page
+// .primary-btn {
+//     background-color: $dark-blue;
+//     color: $light-blue;
+//     border: 2px solid $dark-blue;
+//     padding: 15px 30px;
+//     border-radius: 30px;
+//     margin-bottom: 15px;
+//     &:hover{
+//         transition: 0.5s;
+//         background-color: $light-blue;
+//         color: $dark-blue
+//     }
+// }
 
 // Cards for the categories
 .custom-card {

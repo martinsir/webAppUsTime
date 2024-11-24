@@ -35,3 +35,14 @@ $transition-duration: 0.5s;
     justify-content: center;
     height: 40vh;
 }
+
+#responseOptions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #primaryBtn {
+        margin: 16px 0px 0px 0px;
+
+    }
+}
