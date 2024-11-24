@@ -27,8 +27,16 @@ function showLobbyOptions() {
 function showCreateLobby() {
     // Skjul lobby-valgsektionen og vis kun sektionen til at oprette lobby
     document.getElementById('lobbySelection').style.display = 'none';
-    document.getElementById('createLobbySection').style.display = 'block';
+    document.getElementById('createLobbySection').style.display = 'flex';
     document.getElementById('backButton').style.display = 'block'; // Ensure Back button is visible
+    
+    document.getElementById('guidingText').textContent = 'Skriv dit navn og opret dit rum';
+    const infoText = document.getElementsByClassName('infoText');
+    console.log(infoText);
+
+    for(let i = 0; i < infoText.length; i++){
+        infoText[i].style.display = 'none';
+    }
 }
 
 // Function to show Join Lobby input fields
@@ -205,4 +213,20 @@ socket.on('next_step', (stepIndex) => {
 // Function to update dialog display based on turn
 function updateDialogDisplay() {
     displayDialogStep(currentStep);
+}
+
+export {
+    socket,
+    startCategory,
+    showLobbyOptions,
+    showCreateLobby,
+    showJoinLobby,
+    createLobby,
+    joinLobby,
+    showDialogOnly,
+    goBackToLobbySelection,
+    nextDialogStep,
+    updateDialogDisplay,
+    displayDialogStep,
+    dialogSteps
 }
