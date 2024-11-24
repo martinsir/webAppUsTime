@@ -31,9 +31,9 @@
 
     <main class="pt-3 mt-5">
         <section class="customContainer couplesContainer">
+            <a onclick="goBackToLobbySelection()" href="./basisDialog.html" id="backButton" style="display: none;"><img src="../images/icons/arrow-left.svg"></a>
             <h1>Basis dialog</h1>
             <h3 id="guidingText">Her kan du starte jeres SafeDialog</h3>
-            <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;"><img src="../images/icons/arrow-left.svg"></button>
             <p class="infoText">Denne dialog er velegnet til at facilitere generelle og mindre komplicerede temaer, emner og udfordringer. Den sikre at parterne og dialogen følges ad. Den fremme, træner tryg, tydelig og struktureret dialog.</p> 
             <p class="infoText">For at starte vælger du, om du vil oprette eller tilslutte dig et rum. Klik på “Opret rum” for at få en kode, som din partner kan bruge, eller på “Tilslut rum” for at indtaste en kode fra din partner.</p>
             
@@ -42,9 +42,23 @@
                 <button onclick="showJoinLobby()" aria-label="Join Lobby" class="primary-btn">Tilsut rom</button>
             </div>
 
-            <div class="container" id="createLobbySection" style="display: none;">
+            <!-- Component coming from "showCreateLobby" -->
+            <div class="" id="createLobbySection" style="display: none;">
                 <input id="createName" placeholder="Dit navn" aria-label="Enter your name to create a lobby">
                 <button class="primary-btn" onclick="createLobby()">Opret rum</button>
+            </div>
+
+            <div class="" id="lobbyIDContainer" style="display: none;">
+                <p>Her er din kode:</p>
+                <h2 id="lobbyIDDisplay"></h2>
+                <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Venter på partner</p>
+            </div>
+
+            <!-- Component coming from showJoinlobby  -->
+            <div class="" id="joinLobbySection" style="display: none;">
+                <input id="joinName" placeholder="Indtast dit navn" aria-label="Enter your name to join a lobby">
+                <input id="joinLobbyID" placeholder="Indtast lobby ID" aria-label="Enter lobby ID to join">
+                <button class="primary-btn" onclick="joinLobby()">Tilslut Lobby</button>
             </div>
 
             <!-- <div class="d-flex justify-content-center">

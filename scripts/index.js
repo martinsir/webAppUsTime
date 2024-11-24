@@ -18,6 +18,8 @@ import {
 // Make functions accessible in the global scope
 window.showCreateLobby = showCreateLobby;
 window.showJoinLobby = showJoinLobby;
+window.createLobby = createLobby;
+// window.joinLobby = joinLobby;
 
 // Added this index file and importing from other js files so 
 // that we dont have 10 different scripts in the body of the html

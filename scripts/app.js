@@ -32,7 +32,6 @@ function showCreateLobby() {
     
     document.getElementById('guidingText').textContent = 'Skriv dit navn og opret dit rum';
     const infoText = document.getElementsByClassName('infoText');
-    console.log(infoText);
 
     for(let i = 0; i < infoText.length; i++){
         infoText[i].style.display = 'none';
@@ -43,8 +42,15 @@ function showCreateLobby() {
 function showJoinLobby() {
     // Skjul lobby-valgsektionen og vis kun sektionen til at tilslutte lobby
     document.getElementById('lobbySelection').style.display = 'none';
-    document.getElementById('joinLobbySection').style.display = 'block';
+    document.getElementById('joinLobbySection').style.display = 'flex';
     document.getElementById('backButton').style.display = 'block'; // Ensure Back button is visible
+
+    document.getElementById('guidingText').textContent = 'Skriv dit navn og rumnummeret din partner rum';
+    const infoText = document.getElementsByClassName('infoText');
+
+    for(let i = 0; i < infoText.length; i++){
+        infoText[i].style.display = 'none';
+    }
 }
 
 // Function to create a new lobby
@@ -54,6 +60,7 @@ function createLobby() {
         console.log("Creating lobby with username:", userName);
         socket.emit('create_lobby', userName);
         document.getElementById('createName').value = '';
+        document.getElementById('guidingText').style.display = 'none';
     } else {
         alert("Please enter your name to create a lobby.");
     }
@@ -92,7 +99,7 @@ socket.on('lobby_created', (lobbyID) => {
     // Display the lobby ID to the creator
     const lobbyIDContainer = document.getElementById('lobbyIDContainer');
     document.getElementById('lobbyIDDisplay').innerText = `${lobbyID}`;
-    lobbyIDContainer.style.display = 'block';
+    lobbyIDContainer.style.display = 'flex';
 
     // Hide the lobby creation section since the lobby is already created
     document.getElementById('createLobbySection').style.display = 'none';
