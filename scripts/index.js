@@ -19,7 +19,10 @@ import {
 window.showCreateLobby = showCreateLobby;
 window.showJoinLobby = showJoinLobby;
 window.createLobby = createLobby;
-// window.joinLobby = joinLobby;
+window.joinLobby = joinLobby;
+window.showDialogOnly = showDialogOnly;
+window.goBackToLobbySelection = goBackToLobbySelection;
+window.nextDialogStep = nextDialogStep;
 
 // Added this index file and importing from other js files so 
 // that we dont have 10 different scripts in the body of the html
