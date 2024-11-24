@@ -5,6 +5,8 @@
 // Importing custom code
 @import "./partials/variables";
 @import "./partials/header";
+@import "./partials/icons";
+@import "./partials/dialogues";
 
 // Importing bootstrap framework
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -21,6 +23,10 @@ h1, h2, h3, h4, h5 {
 
 h1 {
     font-size: 24px;
+}
+
+h3 {
+    font-size: 14px;
 }
 
 p {
@@ -42,6 +48,15 @@ body {
     margin: 32px 32px 32px 32px;
 }
 
+.couplesContainer {
+    min-height: 80vh;
+    background-image: url('../../images/illustrations/Par_Illustration_stor.svg');
+    background-repeat: no-repeat;
+    // background-attachment: fixed;
+    background-position: bottom; 
+    background-size: 300px 200px;
+}
+
 // custom readmore button, primarily used on the home page
 .btn-readmore {
     width: 150px;
@@ -51,6 +66,21 @@ body {
     color: $light-blue;
     padding: 0px 5px;
     font-family: $headerFont;
+}
+
+// Custom button for the page
+.primary-btn {
+    background-color: $dark-blue;
+    color: $light-blue;
+    border: 2px solid $dark-blue;
+    padding: 15px 30px;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    &:hover{
+        transition: 0.5s;
+        background-color: $light-blue;
+        color: $dark-blue
+    }
 }
 
 // Cards for the categories
@@ -128,6 +158,10 @@ body {
 .lockedExerciseDisplay {
     background-color: #E9F0F4;
     color: #0A2B4066;
+}
+
+.coupleIllustration {
+    max-width: 100%;;
 }
 
 // Responsiveness for the container

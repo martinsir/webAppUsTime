@@ -1,0 +1,24 @@
+$dark-blue: #0A2B40;
+$transition-duration: 0.5s;
+
+#lobbySelection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: $transition-duration;
+}
+
+#createLobbySection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: $transition-duration;
+
+    #createName {
+        border-radius: 30px;
+        border: 1px solid $dark-blue;
+        width: 100%;
+        margin-bottom: 16px;
+        transition: $transition-duration;
+    }
+}
