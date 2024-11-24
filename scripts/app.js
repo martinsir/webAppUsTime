@@ -76,6 +76,7 @@ function joinLobby() {
         socket.emit('join_lobby', lobbyID, userName);
         document.getElementById('joinName').value = '';
         document.getElementById('joinLobbyID').value = '';
+        document.getElementById('guidingText').style.display = 'none';
     } else {
         alert("Please enter both your name and the lobby ID to join.");
     }
@@ -125,7 +126,7 @@ socket.on('user_joined', (userList) => {
 
 // Handle error messages from the server
 socket.on('error', (message) => {
-    alert(`Error: ${message}`);
+    // alert(`Error: ${message}`);
     console.error(`Error received: ${message}`);
 });
 
@@ -144,6 +145,8 @@ socket.on('start_dialog', (assignedRole) => {
 
 // Define dialog steps
 const dialogSteps = [
+    { role: "Sender", text: "Du udtrykker dine oplevelser, tanker og følelser med udgangspunkt i dig selv og så autentisk som du nu kan. Det gør du uden at pege fingre, dømme eller forsvare. Tal i korte, præcise og tydelige sætninger, der gør det let at lytte og huske for lytteren."},
+    { role: "Reciever", text: "Du lytter aktivt til fortælleren uden at vurdere, dømme, anskue, omdanne det der siges, så de passer med dine egne oplevelser, tanker og følelser. Lyt åbent, nærværende og nysgerrigt til fortælleren. Din opgave er at lytte så du senere kan spejle, opsummere og udtrykke det der gav mening."},
     { role: "Sender", text: "Jeg vil gerne have en dialog, er nu et godt tidspunkt?" },
     { role: "Receiver", text: "Bekræfter tidspunkt eller finder et bedre tidspunkt." },
     { role: "Sender", text: "En ting jeg anerkender dig for/hos dig/ved dig…" },
@@ -159,18 +162,25 @@ const dialogSteps = [
 
 // Function to display each dialog step based on turn
 function displayDialogStep(stepIndex) {
+    const rollDisplay = document.getElementById('rollDisplay');
     const messageDisplay = document.getElementById('messageDisplay');
     const responseOptions = document.getElementById('responseOptions');
 
     if (stepIndex < dialogSteps.length) {
         const step = dialogSteps[stepIndex];
         console.log("Displaying dialog step:", step.text);
+
+        if(role === 'Sender'){
+            rollDisplay.textContent = 'Du er blevet tildelt rollen som fortæller'
+        } else if(role === 'Receiver'){
+            rollDisplay.textContent = 'Du er blevet tildelt rollen som lytter'
+        }
         
         // Display the role and name with each step
-        messageDisplay.innerHTML = `<b>${role} (${userName}):</b> ${step.text}`;
+        messageDisplay.innerHTML = `${step.text}`;
 
         if (isUserTurn) {
-            responseOptions.innerHTML = `<button onclick="nextDialogStep()">Næste</button>`;
+            responseOptions.innerHTML = `<button class="primary-btn" onclick="nextDialogStep()">Næste</button>`;
         } else {
             responseOptions.innerHTML = ""; // Disable button if it's not this user's turn
         }
