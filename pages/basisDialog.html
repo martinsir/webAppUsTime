@@ -3,9 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../dist/css/styles.css">
+    <script src="/socket.io/socket.io.js"></script>
     <title>SafeDialog | BasisDialog</title>
 </head>
 <body>
     
+    <header>
+        <div class="nav-container">
+            <button class="hamburger">
+                <div class="bar"></div>
+            </button>
+            <a href="index.html"><img class="safeDialog-logo" src="../images/SafeDialog_logo.svg" alt="SafeDialog logo"></a>
+            <nav class="desktop-nav" role="navigation">
+                <a class="navigation-link" href="../index.html">Forside</a>
+                <a class="navigation-link" href="./kategorier.html">Start en samtale</a>
+                <a class="navigation-link" href="./om.html">Om SafeDialog</a>
+            </nav>
+            <div class="blob"></div>
+        </div>
+        <nav class="mobile-nav" role="navigation">
+            <a href="../index.html">Forside</a>
+            <a href="./kategorier.html">Start en samtale</a>
+            <a href="./om.html">Om SafeDialog</a>
+        </nav>
+    </header>
+
+    <main class="pt-3 mt-5">
+        <section class="customContainer couplesContainer">
+            <h1>Basis dialog</h1>
+            <h3 id="guidingText">Her kan du starte jeres SafeDialog</h3>
+            <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;"><img src="../images/icons/arrow-left.svg"></button>
+            <p class="infoText">Denne dialog er velegnet til at facilitere generelle og mindre komplicerede temaer, emner og udfordringer. Den sikre at parterne og dialogen følges ad. Den fremme, træner tryg, tydelig og struktureret dialog.</p> 
+            <p class="infoText">For at starte vælger du, om du vil oprette eller tilslutte dig et rum. Klik på “Opret rum” for at få en kode, som din partner kan bruge, eller på “Tilslut rum” for at indtaste en kode fra din partner.</p>
+            
+            <div class="" id="lobbySelection">
+                <button onclick="showCreateLobby()" aria-label="Create Lobby" class="primary-btn">Opret rum</button>
+                <button onclick="showJoinLobby()" aria-label="Join Lobby" class="primary-btn">Tilsut rom</button>
+            </div>
+
+            <div class="container" id="createLobbySection" style="display: none;">
+                <input id="createName" placeholder="Dit navn" aria-label="Enter your name to create a lobby">
+                <button class="primary-btn" onclick="createLobby()">Opret rum</button>
+            </div>
+
+            <!-- <div class="d-flex justify-content-center">
+                <img src="../images/illustrations/Par_Illustration_stor.svg" class="coupleIllustration" alt="Illustration of a couple">
+            </div> -->
+
+        </section>
+    </main>
+
+<!--             
+            <div class="container" id="lobbySelection" style="display: none;">
+                <h2>Opret eller Tilslut en Lobby</h2>
+                <button onclick="showCreateLobby()" aria-label="Create Lobby">Opret Lobby</button>
+                <button onclick="showJoinLobby()" aria-label="Join Lobby">Tilslut Lobby</button>
+            </div>
+
+            <div class="container" id="createLobbySection" style="display: none;">
+                <input id="createName" placeholder="Indtast dit navn" aria-label="Enter your name to create a lobby">
+                <button onclick="createLobby()">Opret Lobby</button>
+            </div>
+
+            <div class="container" id="joinLobbySection" style="display: none;">
+                <input id="joinName" placeholder="Indtast dit navn" aria-label="Enter your name to join a lobby">
+                <input id="joinLobbyID" placeholder="Indtast lobby ID" aria-label="Enter lobby ID to join">
+                <button onclick="joinLobby()">Tilslut Lobby</button>
+            </div>
+
+            <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;">Tilbage</button>
+
+            <div class="container" id="lobbyIDContainer" style="display: none;">
+                <p>Her er din kode:</p>
+                <h1 id="lobbyIDDisplay"></h1>
+                <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Waiting for another user...</p>
+            </div>
+
+            <div class="category-section">
+                <div class="category" onclick="startCategory('Par')" role="button" aria-label="Start conversation in Par category">
+                    <img src="images/par.png" alt="Par">
+                    <label>Par</label>
+                </div>
+                <div class="category" onclick="startCategory('Venskab')" role="button" aria-label="Start conversation in Venskab category">
+                    <img src="images/venskab.png" alt="Venskab">
+                    <label>Venskab</label>
+                </div>
+                <div class="category" onclick="startCategory('Kollega')" role="button" aria-label="Start conversation in Kollega category">
+                    <img src="images/kollega.png" alt="Kollega">
+                    <label>Kollega</label>
+                </div>
+                <div class="category" onclick="startCategory('Solo')" role="button" aria-label="Start conversation in Solo category">
+                    <img src="images/solo.png" alt="Solo">
+                    <label>Solo</label>
+                </div>
+            </div>
+
+            <div class="container" id="dialogContainer" style="display: none;">
+                <div id="messageDisplay"></div>
+                <div id="responseOptions"></div>
+                <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
+            </div>
+
+            <div class="container" id="introSection" style="display: none;">
+                <h2>Grundlæggende imagodialog</h2>
+                <h4>  Velkommen til grundlæggende imagodialog </h4>
+                <p>
+                    Imago-dialogen er en struktureret samtaleform, hvor en person taler, og den anden lytter og spejler det, der bliver sagt. 
+                    Dette hjælper med at skabe en dybere forståelse og empati i samtalen.
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro, autem quasi dolor assumenda deserunt sint quos maxime expedita, magni provident consequatur aliquid voluptatibus fuga necessitatibus minima. Ipsa rerum perspiciatis deserunt?
+                </p>
+                <button onclick="showLobbyOptions()">Videre</button>
+            </div> -->
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="../scripts/index.js" type="module"></script>
+    <!-- <script src="scripts/app.js"></script> -->
 </body>
 </html>
