@@ -11,6 +11,7 @@
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    background-color: white;
 }
 
 .desktop-nav {
@@ -43,7 +44,7 @@
 
 .blob {
     // background-color: white;
-    width: 40px;
+    width: 60px;
     height: 2px;
     margin-left: 32px;
 }
@@ -51,7 +52,7 @@
 .hamburger {
     position: relative;
     display: block;
-    width: 40px;
+    width: 60px;
     cursor: pointer;
     appearance: none;
     background: none;

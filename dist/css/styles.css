@@ -14,6 +14,7 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  background-color: white;
 }
 
 .desktop-nav {
@@ -43,7 +44,7 @@
 }
 
 .blob {
-  width: 40px;
+  width: 60px;
   height: 2px;
   margin-left: 32px;
 }
@@ -51,7 +52,7 @@
 .hamburger {
   position: relative;
   display: block;
-  width: 40px;
+  width: 60px;
   cursor: pointer;
   appearance: none;
   background: none;
@@ -12000,10 +12001,15 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
   font-family: "PT Serif", serif;
 }
 
+h1, .h1 {
+  font-size: 24px;
+}
+
 p {
   font-family: "Inter", sans-serif;
   font-weight: 300;
   font-style: normal;
+  font-size: 14px;
 }
 
 body {
@@ -12027,6 +12033,8 @@ body {
 
 .custom-card {
   font-size: 14px;
+  color: #0A2B40;
+  text-decoration: none;
   background-color: #D1EDFF;
   padding: 16px;
   display: flex;
@@ -12039,6 +12047,52 @@ body {
 .custom-card div h2, .custom-card div .h2 {
   margin: 0;
   font-size: 18px;
+}
+
+.categoriesContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.categoryBox {
+  background-color: #0A2B40;
+  color: #D1EDFF;
+  border: 2iconspx solid #0A2B40;
+  border-radius: 15px;
+  font-family: "PT Serif", serif;
+  font-size: 16px;
+  padding: 5px 15px;
+}
+
+.lockedCategoryDisplay {
+  color: #D9D9D9;
+  border: 2px solid #D9D9D9;
+  background-color: white;
+  position: relative;
+}
+
+.lockIcon {
+  position: absolute;
+  top: -9px;
+  right: 0;
+}
+
+.exercise {
+  background-color: #D1EDFF;
+  color: #0A2B40;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.lockedExerciseDisplay {
+  background-color: #E9F0F4;
+  color: rgba(10, 43, 64, 0.4);
 }
 
 @media (min-width: 768px) {

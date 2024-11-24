@@ -12,27 +12,37 @@
 
 $dark-blue: #0A2B40;
 $light-blue: #D1EDFF;
+$headerFont: "PT Serif", serif;
 
+// Overriding fonts from Bootstrap
 h1, h2, h3, h4, h5 {
-    font-family: "PT Serif", serif;
+    font-family: $headerFont;
+}
+
+h1 {
+    font-size: 24px;
 }
 
 p {
     font-family: "Inter", sans-serif;
     font-weight: 300;
     font-style: normal;
+    font-size: 14px;
 }
 
+// applying color gradient to body 
 body {
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(105,158,192,1) 100%); 
 }
 
 // Custom styling
+// Added a custom container because bootstraps container is a little difficult to manage
 .customContainer {
     margin: 32px 32px 32px 32px;
 }
 
+// custom readmore button, primarily used on the home page
 .btn-readmore {
     width: 150px;
     border-radius: 30px;
@@ -40,11 +50,14 @@ body {
     border: none;
     color: $light-blue;
     padding: 0px 5px;
-    font-family: "PT Serif", serif;
+    font-family: $headerFont;
 }
 
+// Cards for the categories
 .custom-card {
     font-size: 14px;
+    color: $dark-blue;
+    text-decoration: none;
     background-color: $light-blue;
     padding: 16px;
     display: flex;
@@ -68,6 +81,56 @@ body {
 //     transition: 0.5s;
 // }
 
+// Categories container for the...categories see kategorier.html line 40
+.categoriesContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoryBox {
+    background-color: $dark-blue;
+    color: $light-blue;
+    border: 2iconspx solid $dark-blue;
+    border-radius: 15px;
+    font-family: $headerFont;
+    font-size: 16px;
+    padding: 5px 15px;
+}
+
+// Styling for when a category is locked
+.lockedCategoryDisplay {
+    color: #D9D9D9;
+    border: 2px solid #D9D9D9;
+    background-color: white;
+    position: relative;
+}
+
+.lockIcon {
+    position: absolute;
+    top: -9px;
+    right: 0;
+}
+
+// Styling for exercises
+.exercise {
+    background-color: $light-blue;
+    color: $dark-blue;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.lockedExerciseDisplay {
+    background-color: #E9F0F4;
+    color: #0A2B4066;
+}
+
+// Responsiveness for the container
 @media (min-width: 768px){
     .customContainer {
         margin: 32px 32px 32px 32px;
