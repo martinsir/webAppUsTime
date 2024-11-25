@@ -1,16 +1,16 @@
 # How to get started with this project:
 
-## Downaload projektet
+### 1. Downaload projektet
 
-## Open the project in VSCode
+### 2. Open the project in VSCode
 
-## Open the terminal (in VSCode)
+### 3. Open the terminal (in VSCode)
 
-## Write "npm install" in the terminal and hit enter
+### 4. Write "npm install" in the terminal and hit enter
 
-## Write "node server.js" to run the project with the server
+### 5. Write "node server.js" to run the project with the server
 
-## Write "npm run watch" to run scss, which will open a new server and compile the scss into css (updating the styling)
+### 6. Write "npm run watch" to run scss, which will open a new server and compile the scss into css (updating the styling)
 
 ## Task
 
