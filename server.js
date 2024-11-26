@@ -1,11 +1,32 @@
+require('dotenv').config(); // Load environment variables from .env
+
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const mysql = require('mysql2');
 const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
+// Database connection setup using .env variables
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306, // Default to 3306 if not specified
+});
+
+// Test database connection
+db.connect((err) => {
+    if (err) {
+        console.error('Database connection failed:', err.stack);
+        return;
+    }
+    console.log('Connected to the database as ID:', db.threadId);
+});
 
 // Store lobbies and their users
 const lobbies = {};
@@ -27,7 +48,7 @@ io.on('connection', (socket) => {
         const lobbyID = Math.random().toString(36).substring(2, 8);
 
         // Initialize lobby with socket ID and username
-        lobbies[lobbyID] = [{ id: socket.id, name: userName }];
+        lobbies[lobbyID] = [{ id: socket.id, name: userName, ready: false }];
         socket.join(lobbyID);
 
         // Send the lobby ID to the creator
@@ -40,11 +61,11 @@ io.on('connection', (socket) => {
         if (lobbies[lobbyID]) {
             if (lobbies[lobbyID].length < 2) {
                 // Add the user to the lobby
-                lobbies[lobbyID].push({ id: socket.id, name: userName });
+                lobbies[lobbyID].push({ id: socket.id, name: userName, ready: false });
                 socket.join(lobbyID);
 
                 // Emit the updated user list to the lobby
-                const userList = lobbies[lobbyID].map(user => user.name);
+                const userList = lobbies[lobbyID].map((user) => user.name);
                 io.to(lobbyID).emit('user_joined', userList);
                 console.log(`${userName} joined lobby ${lobbyID}`);
 
@@ -70,7 +91,7 @@ io.on('connection', (socket) => {
         // Find the lobby ID that this socket belongs to
         for (const lobbyID in lobbies) {
             const users = lobbies[lobbyID];
-            if (users.some(user => user.id === socket.id)) {
+            if (users.some((user) => user.id === socket.id)) {
                 // Broadcast the next step to all users in the lobby
                 io.to(lobbyID).emit('next_step', stepIndex);
                 console.log(`Advancing to step ${stepIndex} in lobby ${lobbyID}`);
@@ -85,7 +106,7 @@ io.on('connection', (socket) => {
 
         // Remove the user from any lobbies they joined
         for (const lobbyID in lobbies) {
-            const index = lobbies[lobbyID].findIndex(user => user.id === socket.id);
+            const index = lobbies[lobbyID].findIndex((user) => user.id === socket.id);
             if (index !== -1) {
                 const userName = lobbies[lobbyID][index].name;
                 lobbies[lobbyID].splice(index, 1);
@@ -93,7 +114,7 @@ io.on('connection', (socket) => {
                 console.log(`${userName} left lobby ${lobbyID}`);
 
                 // Notify remaining users in the lobby about the updated user list
-                const userList = lobbies[lobbyID].map(user => user.name);
+                const userList = lobbies[lobbyID].map((user) => user.name);
                 io.to(lobbyID).emit('user_joined', userList);
 
                 // Check if the lobby should be deleted
@@ -101,7 +122,10 @@ io.on('connection', (socket) => {
                     delete lobbies[lobbyID];
                     console.log(`Lobby ${lobbyID} deleted as it became empty`);
                 } else {
-                    io.to(lobbyID).emit('error', `${userName} has left the dialog. Please restart if necessary.`);
+                    io.to(lobbyID).emit(
+                        'error',
+                        `${userName} has left the dialog. Please restart if necessary.`
+                    );
                 }
                 break;
             }
@@ -109,7 +133,7 @@ io.on('connection', (socket) => {
     });
 });
 
-// Start the server on port 3000
+// Start the server
 server.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
 });
