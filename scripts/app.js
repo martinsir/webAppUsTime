@@ -145,20 +145,26 @@ socket.on('start_dialog', (assignedRole) => {
 
 // Define dialog steps
 const dialogSteps = [
-    { role: "Sender", text: "Du udtrykker dine oplevelser, tanker og følelser med udgangspunkt i dig selv og så autentisk som du nu kan. Det gør du uden at pege fingre, dømme eller forsvare. Tal i korte, præcise og tydelige sætninger, der gør det let at lytte og huske for lytteren."},
-    { role: "Reciever", text: "Du lytter aktivt til fortælleren uden at vurdere, dømme, anskue, omdanne det der siges, så de passer med dine egne oplevelser, tanker og følelser. Lyt åbent, nærværende og nysgerrigt til fortælleren. Din opgave er at lytte så du senere kan spejle, opsummere og udtrykke det der gav mening."},
-    { role: "Sender", text: "Jeg vil gerne have en dialog, er nu et godt tidspunkt?" },
-    { role: "Receiver", text: "Bekræfter tidspunkt eller finder et bedre tidspunkt." },
-    { role: "Sender", text: "En ting jeg anerkender dig for/hos dig/ved dig…" },
-    { role: "Receiver", text: "Spejle og tjekke med enten ”Er jeg hos/med dig?” eller ”Er der mere om det?”" },
-    { role: "Sender", text: "Er du klar til at lytte?" },
-    { role: "Receiver", text: "Bekræfter, ”Ja, jeg er klar til at lytte”." },
-    { role: "Sender", text: "Det der nogle gange sker …/Det der rør sig for mig …" },
-    { role: "Receiver", text: "Når der ikke er mere, sammenfatter modtager" },
-    { role: "Receiver", text: "Fortæller hvad der giver mening (validering)." },
-    { role: "Receiver", text: "Det der berørte mig ved det du sagde/det jeg så er …" },
-    { role: "Sender", text: "Afrunding med gensidig værdsættelse." }
+    { senderText: "Du udtrykker dine oplevelser, tanker og følelser med udgangspunkt i dig selv og så autentisk som du nu kan. Det gør du uden at pege fingre, dømme eller forsvare.", 
+      receiverText: "Du lytter aktivt til fortælleren uden at vurdere, dømme, anskue, omdanne det der siges, så de passer med dine egne oplevelser, tanker og følelser." 
+    },
+    { senderText: "Jeg vil gerne have en dialog, er nu et godt tidspunkt?", 
+      receiverText: "Bekræfter tidspunkt eller finder et bedre tidspunkt." 
+    },
+    { senderText: "En ting jeg anerkender dig for/hos dig/ved dig…", 
+      receiverText: "Spejle og tjekke med enten ”Er jeg hos/med dig?” eller ”Er der mere om det?”" 
+    },
+    { senderText: "Er du klar til at lytte?", 
+      receiverText: "Bekræfter, ”Ja, jeg er klar til at lytte”." 
+    },
+    { senderText: "Det der nogle gange sker …/Det der rør sig for mig …", 
+      receiverText: "Når der ikke er mere, sammenfatter modtager." 
+    },
+    { senderText: "Afrunding med gensidig værdsættelse.", 
+      receiverText: "" 
+    }
 ];
+
 
 // Function to display each dialog step based on turn
 function displayDialogStep(stepIndex) {
@@ -168,27 +174,29 @@ function displayDialogStep(stepIndex) {
 
     if (stepIndex < dialogSteps.length) {
         const step = dialogSteps[stepIndex];
-        console.log("Displaying dialog step:", step.text);
 
-        if(role === 'Sender'){
-            rollDisplay.textContent = 'Du er blevet tildelt rollen som fortæller'
-        } else if(role === 'Receiver'){
-            rollDisplay.textContent = 'Du er blevet tildelt rollen som lytter'
+        // Display the user's role
+        if (role === 'Sender') {
+            rollDisplay.textContent = 'Du er blevet tildelt rollen som fortæller';
+            messageDisplay.innerHTML = step.senderText; // Show sender's text
+        } else if (role === 'Receiver') {
+            rollDisplay.textContent = 'Du er blevet tildelt rollen som lytter';
+            messageDisplay.innerHTML = step.receiverText; // Show receiver's text
         }
-        
-        // Display the role and name with each step
-        messageDisplay.innerHTML = `${step.text}`;
 
+        // Show "Next" button only if it's the user's turn
         if (isUserTurn) {
             responseOptions.innerHTML = `<button class="primary-btn" onclick="nextDialogStep()">Næste</button>`;
         } else {
-            responseOptions.innerHTML = ""; // Disable button if it's not this user's turn
+            responseOptions.innerHTML = ""; // Disable button for non-turn users
         }
     } else {
+        // Dialog finished
         messageDisplay.innerHTML = "Dialog afsluttet. Tak for deltagelsen.";
         responseOptions.style.display = 'none';
     }
 }
+
 
 // Function to go back to the lobby selection screen
 function goBackToLobbySelection() {
@@ -222,10 +230,13 @@ function nextDialogStep() {
 // Listen for the next dialog step from the other user
 socket.on('next_step', (stepIndex) => {
     currentStep = stepIndex;
-    isUserTurn = (role === dialogSteps[currentStep].role); // Activate turn for this user if roles match
 
-    updateDialogDisplay();
+    // Determine turn based on step index and user's role
+    isUserTurn = (role === (currentStep % 2 === 0 ? 'Sender' : 'Receiver')); 
+
+    updateDialogDisplay(); // Update the UI to show the next step
 });
+
 
 // Function to update dialog display based on turn
 function updateDialogDisplay() {
