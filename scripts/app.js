@@ -9,7 +9,7 @@ let userName = ""; // Track this user's name
 
 // Function to handle category selection
 function startCategory(categoryName) {
-    console.log("Selected category:", categoryName);
+    // console.log("Selected category:", categoryName);
     document.getElementById('initialGreeting').style.display = 'none';
     document.querySelector('.category-section').style.display = 'none';
     document.getElementById('introSection').style.display = 'block'; // Vis introduktionen
@@ -45,7 +45,7 @@ function showJoinLobby() {
     document.getElementById('joinLobbySection').style.display = 'flex';
     document.getElementById('backButton').style.display = 'block'; // Ensure Back button is visible
 
-    document.getElementById('guidingText').textContent = 'Skriv dit navn og rumnummeret din partner rum';
+    document.getElementById('guidingText').textContent = 'Skriv dit navn og rumnummeret din partner har fået';
     const infoText = document.getElementsByClassName('infoText');
 
     for(let i = 0; i < infoText.length; i++){
@@ -57,7 +57,7 @@ function showJoinLobby() {
 function createLobby() {
     userName = document.getElementById('createName').value; // Store user name
     if (userName.trim()) {
-        console.log("Creating lobby with username:", userName);
+        // console.log("Creating lobby with username:", userName);
         socket.emit('create_lobby', userName);
         document.getElementById('createName').value = '';
         document.getElementById('guidingText').style.display = 'none';
@@ -95,7 +95,7 @@ function showDialogOnly() {
 
 // Handle lobby creation event
 socket.on('lobby_created', (lobbyID) => {
-    console.log("Lobby created with ID:", lobbyID);
+    // console.log("Lobby created with ID:", lobbyID);
 
     // Display the lobby ID to the creator
     const lobbyIDContainer = document.getElementById('lobbyIDContainer');
@@ -105,12 +105,12 @@ socket.on('lobby_created', (lobbyID) => {
     // Hide the lobby creation section since the lobby is already created
     document.getElementById('createLobbySection').style.display = 'none';
     
-    console.log("Invitation code displayed for the creator.");
+    // console.log("Invitation code displayed for the creator.");
 });
 
 // Handle user joined event and readiness message
 socket.on('user_joined', (userList) => {
-    console.log("Users in the lobby:", userList);
+    // console.log("Users in the lobby:", userList);
 
     const readinessMessage = document.getElementById('readinessMessage');
 
@@ -120,7 +120,7 @@ socket.on('user_joined', (userList) => {
         readinessMessage.style.display = 'block';
     } else if (userList.length === 2) {
         readinessMessage.style.display = 'none';
-        console.log("Both users joined; ready to start dialog");
+        // console.log("Both users joined; ready to start dialog");
     }
 });
 
@@ -133,13 +133,14 @@ socket.on('error', (message) => {
 // Listen for dialog start event and set up roles and turn-based control
 socket.on('start_dialog', (assignedRole) => {
     role = assignedRole; // Set this user's role
-    console.log("Dialog started, assigned role:", role);
+    // console.log("Dialog started, assigned role:", role);
 
     // Show only the dialog section
     showDialogOnly();
 
     // Begin with the first step if this user is the first active participant
-    isUserTurn = (role === dialogSteps[currentStep].role);
+    // isUserTurn = (role === dialogSteps[currentStep].role);
+    isUserTurn = (role === (currentStep % 2 === 0 ? 'Sender' : 'Receiver'));
     updateDialogDisplay();
 });
 
@@ -148,8 +149,8 @@ const dialogSteps = [
     { senderText: "Du udtrykker dine oplevelser, tanker og følelser med udgangspunkt i dig selv og så autentisk som du nu kan. Det gør du uden at pege fingre, dømme eller forsvare.", 
       receiverText: "Du lytter aktivt til fortælleren uden at vurdere, dømme, anskue, omdanne det der siges, så de passer med dine egne oplevelser, tanker og følelser." 
     },
-    { senderText: "Jeg vil gerne have en dialog, er nu et godt tidspunkt?", 
-      receiverText: "Bekræfter tidspunkt eller finder et bedre tidspunkt." 
+    { senderText: "fortæl noget du gerne vil værdsette hos din partner", 
+      receiverText: "du lytter blot til din partner" 
     },
     { senderText: "En ting jeg anerkender dig for/hos dig/ved dig…", 
       receiverText: "Spejle og tjekke med enten ”Er jeg hos/med dig?” eller ”Er der mere om det?”" 
@@ -178,16 +179,16 @@ function displayDialogStep(stepIndex) {
         // Display the user's role
         if (role === 'Sender') {
             rollDisplay.textContent = 'Du er blevet tildelt rollen som fortæller';
-            messageDisplay.innerHTML = step.senderText; // Show sender's text
+            messageDisplay.innerHTML = `${userName}, ${step.senderText}`; // Show sender's text
         } else if (role === 'Receiver') {
             rollDisplay.textContent = 'Du er blevet tildelt rollen som lytter';
-            messageDisplay.innerHTML = step.receiverText; // Show receiver's text
+            messageDisplay.innerHTML = `${userName}, ${step.receiverText}` // Show receiver's text
         }
 
         // Show "Next" button only if it's the user's turn
         if (isUserTurn) {
             responseOptions.innerHTML = `<button class="primary-btn" onclick="nextDialogStep()">Næste</button>`;
-        } else {
+        } else if(!isUserTurn){
             responseOptions.innerHTML = ""; // Disable button for non-turn users
         }
     } else {
