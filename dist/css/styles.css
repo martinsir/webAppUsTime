@@ -181,6 +181,14 @@
   color: #0A2B40;
 }
 
+.whatDoesThisMean-btn {
+  background-color: transparent;
+  border: none;
+  font-family: "PT Serif", serif;
+  color: #0A2B40;
+  margin-top: 16px;
+}
+
 #lobbySelection {
   display: flex;
   flex-direction: column;
@@ -12170,6 +12178,12 @@ body {
 
 .coupleIllustration {
   max-width: 100%;
+}
+
+#dialogContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 @media (min-width: 768px) {

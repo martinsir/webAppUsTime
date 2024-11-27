@@ -64,8 +64,15 @@
                 <!-- Dialog Container for Imago Dialog Process -->
             <div class="" id="dialogContainer" style="display: none;">
                 <h3 id="rollDisplay"></h3>
-                <div id="messageDisplay"></div>
-                <div id="responseOptions"></div>
+                <div class="pt-5" id="messageDisplay"></div>
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="whatDoesThisMean-btn" data-bs-toggle="modal" data-bs-target="#additionalInfoModal">
+                    Hva betyder det?
+                </button>
+  
+
+                <div class="pt-5" id="responseOptions"></div>
                 <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
             </div>
 
@@ -76,72 +83,28 @@
         </section>
     </main>
 
-<!--             
-            <div class="container" id="lobbySelection" style="display: none;">
-                <h2>Opret eller Tilslut en Lobby</h2>
-                <button onclick="showCreateLobby()" aria-label="Create Lobby">Opret Lobby</button>
-                <button onclick="showJoinLobby()" aria-label="Join Lobby">Tilslut Lobby</button>
+    <div class="modal fade" id="additionalInfoModal" tabindex="-1" aria-labelledby="additionalInfoModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <div class="container" id="createLobbySection" style="display: none;">
-                <input id="createName" placeholder="Indtast dit navn" aria-label="Enter your name to create a lobby">
-                <button onclick="createLobby()">Opret Lobby</button>
+            <div class="modal-body">
+              This is the modal
             </div>
-
-            <div class="container" id="joinLobbySection" style="display: none;">
-                <input id="joinName" placeholder="Indtast dit navn" aria-label="Enter your name to join a lobby">
-                <input id="joinLobbyID" placeholder="Indtast lobby ID" aria-label="Enter lobby ID to join">
-                <button onclick="joinLobby()">Tilslut Lobby</button>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
-
-            <button onclick="goBackToLobbySelection()" id="backButton" style="display: none;">Tilbage</button>
-
-            <div class="container" id="lobbyIDContainer" style="display: none;">
-                <p>Her er din kode:</p>
-                <h1 id="lobbyIDDisplay"></h1>
-                <p id="readinessMessage" style="display: none; color: #555; margin-top: 10px;">Waiting for another user...</p>
-            </div>
-
-            <div class="category-section">
-                <div class="category" onclick="startCategory('Par')" role="button" aria-label="Start conversation in Par category">
-                    <img src="images/par.png" alt="Par">
-                    <label>Par</label>
-                </div>
-                <div class="category" onclick="startCategory('Venskab')" role="button" aria-label="Start conversation in Venskab category">
-                    <img src="images/venskab.png" alt="Venskab">
-                    <label>Venskab</label>
-                </div>
-                <div class="category" onclick="startCategory('Kollega')" role="button" aria-label="Start conversation in Kollega category">
-                    <img src="images/kollega.png" alt="Kollega">
-                    <label>Kollega</label>
-                </div>
-                <div class="category" onclick="startCategory('Solo')" role="button" aria-label="Start conversation in Solo category">
-                    <img src="images/solo.png" alt="Solo">
-                    <label>Solo</label>
-                </div>
-            </div>
-
-            <div class="container" id="dialogContainer" style="display: none;">
-                <div id="messageDisplay"></div>
-                <div id="responseOptions"></div>
-                <p id="turnIndicator" class="your-turn" style="display: none;">It's your turn</p>
-            </div>
-
-            <div class="container" id="introSection" style="display: none;">
-                <h2>Grundlæggende imagodialog</h2>
-                <h4>  Velkommen til grundlæggende imagodialog </h4>
-                <p>
-                    Imago-dialogen er en struktureret samtaleform, hvor en person taler, og den anden lytter og spejler det, der bliver sagt. 
-                    Dette hjælper med at skabe en dybere forståelse og empati i samtalen.
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro, autem quasi dolor assumenda deserunt sint quos maxime expedita, magni provident consequatur aliquid voluptatibus fuga necessitatibus minima. Ipsa rerum perspiciatis deserunt?
-                </p>
-                <button onclick="showLobbyOptions()">Videre</button>
-            </div> -->
+          </div>
+        </div>
+      </div>
 
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     <script src="../scripts/index.js" type="module"></script>
     <!-- <script src="scripts/app.js"></script> -->
 </body>

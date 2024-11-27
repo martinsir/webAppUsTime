@@ -89,7 +89,7 @@ function showDialogOnly() {
     document.getElementById('joinLobbySection').style.display = 'none';
     document.getElementById('lobbySelection').style.display = 'none';
     document.getElementById('lobbyIDContainer').style.display = 'none';
-    document.getElementById('dialogContainer').style.display = 'block';
+    document.getElementById('dialogContainer').style.display = 'flex';
     document.getElementById('backButton').style.display = 'none'; // Hide Back button in dialog view
 }
 
@@ -152,17 +152,23 @@ const dialogSteps = [
     { senderText: "fortæl noget du gerne vil værdsette hos din partner", 
       receiverText: "du lytter blot til din partner" 
     },
-    { senderText: "En ting jeg anerkender dig for/hos dig/ved dig…", 
-      receiverText: "Spejle og tjekke med enten ”Er jeg hos/med dig?” eller ”Er der mere om det?”" 
+    { senderText: "du lytter blot til din partner", 
+      receiverText: "fortæl noget du gerne vil værdsette hos din partner" 
     },
-    { senderText: "Er du klar til at lytte?", 
-      receiverText: "Bekræfter, ”Ja, jeg er klar til at lytte”." 
+    { senderText: "nu vil din partner spejle og tjekke med dig", 
+      receiverText: "spejl og tjek med det din partner har fortalt har fortalt" 
     },
-    { senderText: "Det der nogle gange sker …/Det der rør sig for mig …", 
-      receiverText: "Når der ikke er mere, sammenfatter modtager." 
+    { senderText: "start det du vil sige med", 
+      receiverText: "Lorem ipsum, dolor sit amet (step 5)" 
     },
-    { senderText: "Afrunding med gensidig værdsættelse.", 
-      receiverText: "" 
+    { senderText: "Lorem ipsum, dolor sit amet (step 6)", 
+      receiverText: "Lorem ipsum, dolor sit amet (step 6)" 
+    },
+    { senderText: "Lorem ipsum, dolor sit amet (step 7", 
+        receiverText: "Lorem ipsum, dolor sit amet (step 7)" 
+    },
+    { senderText: "Lorem ipsum, dolor sit amet (step 8)", 
+        receiverText: "Lorem ipsum, dolor sit amet (step 8)" 
     }
 ];
 
@@ -187,7 +193,7 @@ function displayDialogStep(stepIndex) {
 
         // Show "Next" button only if it's the user's turn
         if (isUserTurn) {
-            responseOptions.innerHTML = `<button class="primary-btn" onclick="nextDialogStep()">Næste</button>`;
+            responseOptions.innerHTML = `<button class="primary-btn mt-5" onclick="nextDialogStep()">Næste</button>`;
         } else if(!isUserTurn){
             responseOptions.innerHTML = ""; // Disable button for non-turn users
         }
