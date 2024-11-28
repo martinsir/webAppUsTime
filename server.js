@@ -1,5 +1,3 @@
-require('dotenv').config(); // Load environment variables from .env
-
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -10,22 +8,23 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Database connection setup using .env variables
+const config = require('./config'); // Importér konfigurationsfilen
+
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT || 3306, // Default to 3306 if not specified
+    host: config.DB_HOST, // Fra config.js
+    user: config.DB_USER, // Fra config.js
+    password: config.DB_PASSWORD, // Fra config.js
+    database: config.DB_NAME, // Fra config.js
+    port: config.DB_PORT || 3306, // Brug default 3306, hvis DB_PORT ikke er defineret i config
 });
 
-// Test database connection
+// Forbind til databasen
 db.connect((err) => {
     if (err) {
-        console.error('Database connection failed:', err.stack);
+        console.error('Databaseforbindelse fejlede:', err);
         return;
     }
-    console.log('Connected to the database as ID:', db.threadId);
+    console.log('Forbundet til databasen!');
 });
 
 // Store lobbies and their users
